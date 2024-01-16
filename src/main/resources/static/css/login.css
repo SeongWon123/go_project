@@ -53,7 +53,7 @@ header {
 .go-start{
     background-color: #7C00FF;
     border-radius: 5px;
-    border-color: #7C00FF;
+    border: none;
     padding: 10px;
     margin:auto 15px;
 }
@@ -82,7 +82,8 @@ label {
 }
 
 input {
-    border: 1px solid #d1d1d1;
+    border: none;
+    background-color: #F7F6F9;
     border-radius: 5px;
     color: #ababab;
     display: block;
