@@ -53,7 +53,7 @@ header {
 .go-start{
     background-color: #7C00FF;
     border-radius: 5px;
-    border-color: #7C00FF;
+    border: none;
     padding: 10px;
     margin:auto 15px;
 }
@@ -104,6 +104,8 @@ img{
 
 }
 .box{
+    border: none;
+    background-color: #F7F6F9;
     display: flex;
     box-shadow: 2px 1px 10px 1px rgba(0,0,0,0.1);
     margin: 10px;
@@ -134,9 +136,9 @@ img{
     background-color: #7C00FF;
     color: white;
     border-radius: 5px;
-    border-color: #7C00FF;
-    font-size: 13px;
-    height: 35px;
-    width: 100px;
+    border: none;
+    font-size: 15px;
+    height: 40px;
+    width: 170px;
     margin: 25px auto;
 }
