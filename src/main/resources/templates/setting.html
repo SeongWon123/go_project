@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>makebanner</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+          href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&family=Titillium+Web:wght@300;600&display=swap"
+          rel="stylesheet"
+  >
+  <link rel="stylesheet" href="css/setting.css">
+</head>
+
+<body>
+<header>
+  <div class="banner-header">
+
+    <h2 class="banner-title">MAKEBANNER</h2>
+
+    <div class="charts-see-all">
+
+      <a class="go-login" href="#">
+        로그인
+      </a>
+
+      <a class="go-login" href="#">
+        회원가입
+      </a>
+
+      <button class="go-start">
+        <a class="go-go" href="#">
+          시작하기
+        </a>
+      </button>
+
+    </div>
+
+  </div>
+</header>
+
+<section>
+  <div class="container">
+    <form class= "login">
+      <h1 class= "login-title">배너 제작 설정</h1>
+      <label class="la-t">배너 주제</label>
+      <input class="in-t"
+              name="subject"
+              type="text"
+              placeholder="배너 주제를 입력하세요."
+      />
+      <label class="la-t">배너 크기</label>
+      <input class="in-t"
+              name="size"
+              type="text"
+              placeholder="배너 크기를 입력해주세요."
+      />
+
+      <label class="la-t">배너 문구</label>
+
+      <div class="check_wrap">
+        <input type="checkbox" id="check_btn1"/>
+        <label for="check_btn1"><span>문구 직접입력</span></label>
+      </div>
+
+      <input class="in-t"
+             name="text"
+             type="text"
+             placeholder="추천 문구를 직접 입력해주세요."
+      />
+
+      <div class="check_wrap">
+        <input type="checkbox" id="check_btn2"/>
+        <label for="check_btn2"><span>문구 추천받기</span></label>
+      </div>
+
+      <button class="rec-but">문구 추천받기</button>
+
+      <div class="check">
+        <input class="in-t"
+               type="text"
+               name="text"
+               placeholder="배너 추천 문구"/>
+        <button>확인</button>
+      </div>
+
+
+      <button class="login-but">결과 보기</button>
+    </form>
+  </div>
+</section>
+
+</body>
+</html>
