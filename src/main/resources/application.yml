@@ -1,0 +1,17 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/team_project_db?useSSL=false&useUnicode=true&serverTimezone=Asia/Seoul
+    username: root
+    password:
+
+  jpa: #띄어쓰기 2칸
+    hibernate: #띄어쓰기 4칸
+      ddl-auto: update #띄어쓰기 6칸
+    properties: #띄어쓰기 4칸
+      hibernate: #띄어쓰기 6칸
+        #show_sql: true #띄어쓰기 8칸
+        format_sql: true #띄어쓰기 8칸
+
+  logging.level: #띄어쓰기 없음
+    org.hibernate.SQL: debug #띄어쓰기 2칸
