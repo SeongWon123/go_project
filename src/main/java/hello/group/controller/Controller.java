@@ -68,4 +68,9 @@ public class Controller  {
     }
 
 
+    @GetMapping("/makeBanner") //배너 생성 페이지
+    public String makeBannerPage(){
+        return "setting";
+    }
+
 }
