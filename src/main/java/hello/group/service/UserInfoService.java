@@ -63,79 +63,79 @@ public class UserInfoService {
 
     }
 
-    public User findByIdForImageSave(String userid) {
-        // 이미지 저장시 유저정보 필요
-        Optional<User> byId = userInfo.findById(userid);
-        System.out.println(byId);
-        User user = byId.get();
-
-        return user;
-    }
-
-    @Transactional
-    public void getImage(String replaceText, String userId, String text) {
-
-
-        String url = "http://127.0.0.1:8000/tospring" + "?" + "q=" + replaceText;
-        String sb = "";
-
-
-        try {
-            //url 커넥션을 활용하여 데이터 주고 받기
-            HttpURLConnection conn = (HttpURLConnection) new URL(url).openConnection();
-            conn.setRequestProperty("Content-type", "application/json");
-            conn.setDoOutput(true);
-
-            BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
-
-            // 받아온 인코딩으로 된 이미지 String형태로 저장
-            String line = null;
-
-            while ((line = br.readLine()) != null) {
-                sb = sb + line;
-            }
-
-            if (sb.toString().contains("ok")) {
-                System.out.println("test");
-
-            }
-
-            // 인코딩 -> 디코딩 base64사용
-            byte[] bytes = org.apache.tomcat.util.codec.binary.Base64.decodeBase64(sb.split(",", 1)[0]);
-
-            //저장시 현재 시간 userId + 현재시간.png로 저장
-            LocalDateTime now = LocalDateTime.now();
-            String format = now.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-            String saveTime = format.replaceAll(" ", "").replaceAll("-", "").replaceAll(":", "");
-
-            //받아온 이미지 파일 생성 및 저장
-            FileOutputStream fileOutputStream;
-            File file = new File("C:\\git\\group\\src\\main\\resources\\templates\\make-banner-react-template\\src\\static\\images\\" + userId + "__" + saveTime + ".png");
-            file.createNewFile();
-            fileOutputStream = new FileOutputStream(file);
-            fileOutputStream.write(bytes);
-            fileOutputStream.close();
-            String adToString = file.toString();
-
-            System.out.println(file);
-            // user정보를 알아야 하기 때문에 db에서 가져오기
-            User byId2 = findByIdForImageSave(userId);
-
-            // 생성된 이미지를 db에 저장
-            AdDto dto = new AdDto();
-            dto.setCreateAd(adToString);
-            dto.setPrompt(text);
-            Ad dtoEntity = dto.toEntity();
-            dtoEntity.setUserId(byId2);
-            adRepo.save(dtoEntity);
-            br.close();
-
-
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-    }
+//    public User findByIdForImageSave(String userid) {
+//        // 이미지 저장시 유저정보 필요
+//        Optional<User> byId = userInfo.findById(userid);
+//        System.out.println(byId);
+//        User user = byId.get();
+//
+//        return user;
+//    }
+//
+//    @Transactional
+//    public void getImage(String replaceText, String userId, String text) {
+//
+//
+//        String url = "http://127.0.0.1:8000/tospring" + "?" + "q=" + replaceText;
+//        String sb = "";
+//
+//
+//        try {
+//            //url 커넥션을 활용하여 데이터 주고 받기
+//            HttpURLConnection conn = (HttpURLConnection) new URL(url).openConnection();
+//            conn.setRequestProperty("Content-type", "application/json");
+//            conn.setDoOutput(true);
+//
+//            BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
+//
+//            // 받아온 인코딩으로 된 이미지 String형태로 저장
+//            String line = null;
+//
+//            while ((line = br.readLine()) != null) {
+//                sb = sb + line;
+//            }
+//
+//            if (sb.toString().contains("ok")) {
+//                System.out.println("test");
+//
+//            }
+//
+//            // 인코딩 -> 디코딩 base64사용
+//            byte[] bytes = org.apache.tomcat.util.codec.binary.Base64.decodeBase64(sb.split(",", 1)[0]);
+//
+//            //저장시 현재 시간 userId + 현재시간.png로 저장
+//            LocalDateTime now = LocalDateTime.now();
+//            String format = now.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+//            String saveTime = format.replaceAll(" ", "").replaceAll("-", "").replaceAll(":", "");
+//
+//            //받아온 이미지 파일 생성 및 저장
+//            FileOutputStream fileOutputStream;
+//            File file = new File("C:\\git\\group\\src\\main\\resources\\templates\\make-banner-react-template\\src\\static\\images\\" + userId + "__" + saveTime + ".png");
+//            file.createNewFile();
+//            fileOutputStream = new FileOutputStream(file);
+//            fileOutputStream.write(bytes);
+//            fileOutputStream.close();
+//            String adToString = file.toString();
+//
+//            System.out.println(file);
+//            // user정보를 알아야 하기 때문에 db에서 가져오기
+//            User byId2 = findByIdForImageSave(userId);
+//
+//            // 생성된 이미지를 db에 저장
+//            AdDto dto = new AdDto();
+//            dto.setCreateAd(adToString);
+//            dto.setPrompt(text);
+//            Ad dtoEntity = dto.toEntity();
+//            dtoEntity.setUserId(byId2);
+//            adRepo.save(dtoEntity);
+//            br.close();
+//
+//
+//        } catch (MalformedURLException e) {
+//            e.printStackTrace();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//
+//    }
 }
