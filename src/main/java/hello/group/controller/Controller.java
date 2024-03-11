@@ -1,71 +1,99 @@
 package hello.group.controller;
-
-import hello.group.HelloUserinfo;
+import hello.group.dto.HelloUserinfo;
+import hello.group.entity.User;
+import hello.group.service.UserInfoService;
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.HashMap;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Map;
 
-@CrossOrigin(origins = "http://localhost:3000", allowedHeaders = "*", allowCredentials = "true")
+
 @RestController
 @RequestMapping("/api")
-public class Controller  {
+@RequiredArgsConstructor
+@Slf4j
+public class Controller {
 
-    private final Map<String, HelloUserinfo> userDatabase = new HashMap<>();
+    @Autowired
+    private UserInfoService userInfoService;
 
+    @CrossOrigin(origins = "http://localhost:3000", allowedHeaders = "*", allowCredentials = "true")
     @PostMapping("/signup")
-    public String handleSignup(@RequestBody HelloUserinfo userInfo) {
-        // 여기서 userInfo를 처리하고 응답을 반환
-        System.out.println("Received user info: " + userInfo.toString());
-//         실제로는 이곳에서 데이터를 저장하고 회원가입 처리를 해야 합니다.
-        userDatabase.put(userInfo.getUserid(), userInfo);
+    public String handleSignup(@RequestBody HelloUserinfo helloUserInfo, @Valid BindingResult bindingResult) {
+
+        // user정보 저장
+        User save = userInfoService.save(helloUserInfo);
+        System.out.println(save);
+
+        if (save == null){
+            return "fail";
+        }
+
+        System.out.println("Received user info: " + helloUserInfo);
+
         return "success";
+
     }
 
+    @CrossOrigin(origins = "http://localhost:3000", allowedHeaders = "*", allowCredentials = "true")
     @PostMapping("/login")
-    public ResponseEntity<String> handleLogin(@RequestBody HelloUserinfo loginInfo) {
-        String userid = loginInfo.getUserid();
-        String userpassword = loginInfo.getUserpassword();
+    public ResponseEntity<String> handleLogin(@RequestBody HelloUserinfo helloUserInfo, @Valid BindingResult bindingResult) {
 
-        // userDatabase에서 userId에 해당하는 사용자 정보 가져오기
-        HelloUserinfo storedUserInfo = userDatabase.get(userid);
+        // 아이디 비번 일치 확인 후 db에서 정보 가져오기
+        HelloUserinfo byId = userInfoService.findById(helloUserInfo.getUserid(), helloUserInfo.getUserpassword());
+        System.out.println(byId + "entity");
 
-        if (storedUserInfo != null && storedUserInfo.getUserpassword().equals(userpassword)) {
-            // 로그인 성공
-            System.out.println("Login successful for user: " + userid + userpassword);
+        //저장시 현재 시간 userId + 현재시간.png로 저장
+        LocalDateTime now = LocalDateTime.now();
+        String format = now.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+        System.out.println(format);
+
+        if(bindingResult.hasErrors() || byId == null) { //에러 발생시 BindingResult 활용해서 글로벌 에러 띄우기
+
+            System.out.println("Login failed for user: " + helloUserInfo.getUserid() + helloUserInfo.getUserpassword());
+            return ResponseEntity.status(401).body("failure");
+
+        }else{// 에러가 발생하지 않는다면 성공했다고 알려주기
+
+            System.out.println("Login successful for user: " + helloUserInfo.getUserid() + helloUserInfo.getUserpassword());
             return ResponseEntity.ok("success");
 
-        } else {
-            // 로그인 실패
-            System.out.println("Login failed for user: " + userid + userpassword);
-            return ResponseEntity.status(401).body("failure");
         }
     }
+
+    @CrossOrigin(origins = "http://localhost:3000", allowedHeaders = "*", allowCredentials = "true")
     @PostMapping("/makebanner")
     public ResponseEntity<String> makeBanner(@RequestBody Map<String, String> bannerInfo) {
+
         // 클라이언트로부터 받은 배너 설정 정보 처리
         String subject = bannerInfo.get("subject");
         String size = bannerInfo.get("size");
         String text = bannerInfo.get("text");
         String autoText = bannerInfo.get("autotext");
+        String userId = bannerInfo.get("userid");
 
         // 예시로 받은 배너 설정 정보를 콘솔에 출력
         System.out.println("Subject: " + subject);
         System.out.println("Size: " + size);
         System.out.println("Text: " + text);
         System.out.println("Auto Text: " + autoText);
+        System.out.println("userId: " + userId);
 
-        // 실제로는 이곳에서 받은 설정 정보를 활용하여 필요한 작업을 수행할 수 있습니다.
-        // 예를 들어, 데이터베이스에 저장하거나 다른 서비스로 전달할 수 있습니다.
+        // 쿼리로 보내기 위해선 공백을 없애야함 그래서 replace를 활용해 공백을 어떠한 문자로 치환
+        String replaceText = subject.replaceAll(" ", "/");
+        System.out.println(replaceText);
+
+        userInfoService.getImage(replaceText, userId, subject);
 
         return ResponseEntity.ok("Received banner settings");
-    }
 
-
-    @GetMapping("/makeBanner") //배너 생성 페이지
-    public String makeBannerPage(){
-        return "setting";
     }
 
 }
+

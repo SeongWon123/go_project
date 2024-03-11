@@ -38,8 +38,10 @@ const Makebanner = () => {
                 subject: bannerSubject,
                 size: bannerSize,
                 text: bannerText,
-                autotext: bannerautoText
+                autotext: bannerautoText,
+                userid : sessionSearch
             };
+            console.log(data)
 
             // POST 요청을 보내고 응답 받기
             const response = await axios.post('/api/makebanner', data);
@@ -84,7 +86,7 @@ const Makebanner = () => {
             <div class="container">
                 <form class= "login" onSubmit={handleBannerSubmit}>
                     <h1 class= "login-title">배너 제작 설정</h1>
-                    <label class="la-t">배너 주제</label>
+                    <label class="la-t">광고 주제</label>
                     <input class="in-t"
                            name="subject"
                            type="text"
