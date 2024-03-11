@@ -4,6 +4,7 @@ import axios from 'axios';
 import './static/css/setting.css';
 
 
+
 const Makebanner = () => {
     const navigate = useNavigate ();
     const sessionSearch = sessionStorage.getItem("userid");
