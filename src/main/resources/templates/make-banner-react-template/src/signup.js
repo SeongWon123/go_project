@@ -46,12 +46,19 @@ const Signup = () => {
         try {
             const response = await axios.post('/api/signup', userInfo);
 
-            alert('회원가입이 되었습니다');
-            console.log('회원가입이 완료되었습니다.', userInfo);
-            console.log(response.data); // 성공한 경우 서버 응답을 콘솔에 출력
-            console.log(userInfo)
-            // 회원가입 후 로그인 페이지로 이동 또는 다른 작업 수행
-            navigate('/login');
+            console.log(response.data);// 성공한 경우 서버 응답을 콘솔에 출력
+            if (response.data == 'fail'){
+                alert("이미 존재하는 아이디입니다.");
+                return;
+            }else{
+                alert('회원가입이 되었습니다');
+                console.log('회원가입이 완료되었습니다.', userInfo);
+                console.log(userInfo)
+                // 회원가입 후 로그인 페이지로 이동 또는 다른 작업 수행
+                return navigate('/login');
+
+            }
+
         } catch (error) {
             console.error('Error signing up:', error);
         }
