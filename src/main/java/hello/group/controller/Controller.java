@@ -2,6 +2,7 @@ package hello.group.controller;
 
 import hello.group.dto.HelloUserinfo;
 import hello.group.entity.User;
+import hello.group.service.MakeImageService;
 import hello.group.service.UserInfoService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +23,9 @@ public class Controller {
 
     @Autowired
     private UserInfoService userInfoService;
+
+    @Autowired
+    private MakeImageService makeImageService;
 
     @CrossOrigin(origins = "http://localhost:3000", allowedHeaders = "*", allowCredentials = "true")
     @PostMapping("/signup")
@@ -89,7 +93,7 @@ public class Controller {
         String replaceText = subject.replaceAll(" ", "/");
         System.out.println(replaceText);
 
-        userInfoService.getImage(replaceText, userId, subject);
+        makeImageService.getImage(replaceText, userId, subject);
 
         return ResponseEntity.ok("Received banner settings");
 
