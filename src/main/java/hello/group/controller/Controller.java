@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Map;
+import org.springframework.http.HttpStatus;
 
 
 @RestController
@@ -73,14 +74,16 @@ public class Controller {
 
         // 클라이언트로부터 받은 배너 설정 정보 처리
         String subject = bannerInfo.get("subject");
-        String size = bannerInfo.get("size");
+        String widthsize = bannerInfo.get("widthsize");
+        String heightsize = bannerInfo.get("heightsize");
         String text = bannerInfo.get("text");
         String autoText = bannerInfo.get("autotext");
         String userId = bannerInfo.get("userid");
 
         // 예시로 받은 배너 설정 정보를 콘솔에 출력
         System.out.println("Subject: " + subject);
-        System.out.println("Size: " + size);
+        System.out.println("widthSize: " + widthsize);
+        System.out.println("heightSize: " + heightsize);
         System.out.println("Text: " + text);
         System.out.println("Auto Text: " + autoText);
         System.out.println("userId: " + userId);
@@ -93,6 +96,28 @@ public class Controller {
 
         return ResponseEntity.ok("Received banner settings");
 
+    }
+    @PostMapping("/editorPage")
+    public ResponseEntity<String> handleBannerData(@RequestBody BannerData bannerData) {
+        // 받은 이미지 데이터 처리
+        String image = bannerData.getImage();
+        System.out.println("이미지를 받아왔습니다: " + image);
+        // 간단한 응답 생성
+        String responseMessage = "이미지 데이터를 성공적으로 받았습니다.";
+        return new ResponseEntity<>(image, HttpStatus.OK);
+
+    }
+
+    public static class BannerData {
+        private String image;
+
+        public String getImage() {
+            return image;
+        }
+
+        public void setImage(String image) {
+            this.image = image;
+        }
     }
 
 }

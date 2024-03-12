@@ -16,7 +16,9 @@ const Login = () =>  {
             navigate("/setting");
         }
     }, []); // 의존성 배열 비워짐
-
+    const GoMain = () => {
+        navigate("/main");
+    }
     const GoLogin = () => {
         navigate("/login");
     }

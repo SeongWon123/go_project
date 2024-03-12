@@ -4,6 +4,9 @@ import Login from './login';
 import Setting from './setting';
 import Mypage from './mypage';
 import Signup from './signup'
+import Makebanner from "./makebanner";
+import Resultbanner from "./resultbanner";
+import Main from"./main"
 
 
 
@@ -16,6 +19,9 @@ export default function App() {
             <Route path={"/setting"} element={<Setting />}></Route>
             <Route path={"/mypage"} element={<Mypage />}></Route>
             <Route path={"/signup"} element={<Signup />}></Route>
+            <Route path={"/makebanner"} element={<Makebanner/>}></Route>
+            <Route path={"/resultbanner"} element={<Resultbanner/>}></Route>
+            <Route path={"/main"} element={<Main/>}></Route>
           </Routes>
         </BrowserRouter>
       </div>
