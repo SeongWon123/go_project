@@ -75,6 +75,12 @@ header {
     box-shadow: 2px 1px 10px 1px rgba(0,0,0,0.1);
 }
 
+.size-int-box {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
 .la-t {
     color: #2c2c2c;
     display: block;

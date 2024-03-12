@@ -4,11 +4,13 @@ import axios from 'axios';
 import './static/css/setting.css';
 
 
+
 const Makebanner = () => {
     const navigate = useNavigate ();
     const sessionSearch = sessionStorage.getItem("userid");
     const [bannerSubject, setBannerSubject] = useState("");
-    const [bannerSize, setBannerSize] = useState("");
+    const [bannerwidthSize, setwidthSize] = useState("");
+    const [bannerheightSize, setheightSize] = useState("");
     const [bannerText, setBannerText] = useState("");
     const [bannerautoText, setautoBannerText] = useState("");
 
@@ -19,6 +21,9 @@ const Makebanner = () => {
         }
     }, [sessionSearch, navigate]);
 
+    const GoMain = () => {
+        navigate("/main");
+    }
     const GoLogout = () => {
         sessionStorage.removeItem("userid");
         navigate("/login");
@@ -35,7 +40,8 @@ const Makebanner = () => {
             // 서버로 보낼 데이터를 객체로 만듦
             const data = {
                 subject: bannerSubject,
-                size: bannerSize,
+                widthsize: bannerwidthSize,
+                heightsize: bannerheightSize,
                 text: bannerText,
                 autotext: bannerautoText,
                 userid : sessionSearch
@@ -58,8 +64,7 @@ const Makebanner = () => {
         <header>
             <div class="banner-header">
 
-                <h2 class="banner-title">MAKEBANNER</h2>
-
+                <h2 className="banner-title" onClick={GoMain}>MAKEBANNER</h2>
                 <div class="charts-see-all">
 
                     <a class="go-login" onClick={GoLogout}>
@@ -83,10 +88,10 @@ const Makebanner = () => {
 
         <section>
             <div class="container">
-                <form class= "login" onSubmit={handleBannerSubmit}>
-                    <h1 class= "login-title">배너 제작 설정</h1>
+                <form class="login" onSubmit={handleBannerSubmit}>
+                    <h1 class="login-title">배너 제작 설정</h1>
                     <label class="la-t">광고 주제</label>
-                    <input class="in-t"
+                    <input className="in-t"
                            name="subject"
                            type="text"
                            value={bannerSubject}
@@ -94,22 +99,39 @@ const Makebanner = () => {
                            placeholder="배너 주제를 입력하세요."
                     />
                     <label class="la-t">배너 크기</label>
-                    <input class="in-t"
-                           name="size"
-                           type="text"
-                           value={bannerSize}
-                           onChange={(e) => setBannerSize(e.target.value)}
-                           placeholder="배너 크기를 입력해주세요."
-                    />
+                    {/*<input class="in-t"*/}
+                    {/*       name="size"*/}
+                    {/*       type="text"*/}
+                    {/*       value={bannerSize}*/}
+                    {/*       onChange={(e) => setBannerSize(e.target.value)}*/}
+                    {/*       placeholder="배너 크기를 입력해주세요."*/}
+                    {/*/>*/}
+                    <div className="size-int-box">
+                        <input className="in-t"
+                               name="size"
+                               type="text"
+                               value={bannerwidthSize}
+                               onChange={(e) => setwidthSize(e.target.value)}
+                               placeholder="가로길이 입력"
+                        />
+                        <input className="in-t"
+                               name="size"
+                               type="text"
+                               value={bannerheightSize}
+                               onChange={(e) => setheightSize(e.target.value)}
+                               placeholder="세로길이 입력"
+                        />
+                    </div>
+
 
                     <label class="la-t">배너 문구</label>
 
-                    <div class="check_wrap">
+                    <div className="check_wrap">
                         <input type="checkbox" id="check_btn1"/>
                         <label for="check_btn1"><span>문구 직접입력</span></label>
                     </div>
 
-                    <input class="in-t"
+                    <input className="in-t"
                            name="text"
                            type="text"
                            value={bannerText}
@@ -117,15 +139,15 @@ const Makebanner = () => {
                            placeholder="추천 문구를 직접 입력해주세요."
                     />
 
-                    <div class="check_wrap">
+                    <div className="check_wrap">
                         <input type="checkbox" id="check_btn2"/>
                         <label for="check_btn2"><span>문구 추천받기</span></label>
                     </div>
 
                     <button class="rec-but">문구 추천받기</button>
 
-                    <div class="check">
-                        <input class="in-t"
+                    <div className="check">
+                        <input className="in-t"
                                type="text"
                                name="text"
                                value={bannerautoText}
