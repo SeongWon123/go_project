@@ -33,7 +33,7 @@ public class Controller {
     public String handleSignup(@RequestBody HelloUserinfo helloUserInfo, @Valid BindingResult bindingResult) {
 
         // user정보 저장
-        User save = userInfoService.save(helloUserInfo);
+        HelloUserinfo save = userInfoService.save(helloUserInfo);
         System.out.println(save);
 
         if (save == null){

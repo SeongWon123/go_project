@@ -27,7 +27,7 @@ public class UserInfoService {
     private AdRepository adRepo;
 
     @Transactional
-    public User save(HelloUserinfo helloUserinfo){
+    public HelloUserinfo save(HelloUserinfo helloUserinfo){
         // 똑같은 아이디가 있는지 확인
         Optional<User> byId = userInfo.findById(helloUserinfo.getUserid());
         System.out.println(byId);
@@ -42,8 +42,9 @@ public class UserInfoService {
         User entity = helloUserinfo.toEntity();
         System.out.println(entity);
         userInfo.save(entity);
+        HelloUserinfo dto = entity.toDto();
 
-        return entity;
+        return dto;
     }
 
     public HelloUserinfo findById(String userid, String userpassword) {
