@@ -9,7 +9,9 @@ import java.util.List;
 
 @Entity
 @Getter
+@Setter
 @NoArgsConstructor
+@ToString
 public class User {
 
     @Id
@@ -26,7 +28,7 @@ public class User {
     private String userCRN;
 
 //    @NotFound(action = NotFoundAction.IGNORE)
-    @OneToMany(mappedBy = "userId")
+    @OneToMany(mappedBy = "userNum")
     private List<Ad> adList = new ArrayList<>();
 
     public User(Long num, String username, String userid, String userpassword, String userCRN) {

@@ -5,7 +5,9 @@ import hello.group.entity.Ad;
 import hello.group.entity.User;
 import hello.group.repository.AdRepository;
 import hello.group.repository.UserInfo;
+import jakarta.persistence.EntityManager;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,6 +18,9 @@ import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.NoSuchFileException;
+import java.nio.file.StandardCopyOption;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -31,25 +36,28 @@ public class MakeImageService {
     @Autowired
     private AdRepository adRepo;
 
-    public User findByIdForImageSave(String userid) {
-        // 이미지 저장시 유저정보 필요
-        Optional<User> byId = userInfo.findById(userid);
-        System.out.println(byId);
-        User user = byId.get();
+    @Autowired
+    private EntityManager em;
 
-        return user;
-    }
+    private List<String> li = new ArrayList<>();
 
-    @Transactional
-    public void getImage(String replaceText, String userId, String text) {
+//    public User findByIdForImageSave(String userid) {
+//        // 이미지 저장시 유저정보 필요
+//        Optional<User> byId = userInfo.findById(userid);
+//        System.out.println(byId);
+//        User user = byId.get();
+//
+//        return user;
+//    }
+
+    public String getImage(String replaceText, String userId, String text,int w, int h) {
 
 
         String url = "http://127.0.0.1:8000/tospring" + "?" + "q=" + replaceText;
         String sb = "";
 
-        List<BufferedImage> li = new ArrayList<>();
 
-
+        // 3000/makebanner
         try {
             //url 커넥션을 활용하여 데이터 주고 받기
             HttpURLConnection conn = (HttpURLConnection) new URL(url).openConnection();
@@ -70,9 +78,10 @@ public class MakeImageService {
 
             }
 
+
+
             // 인코딩 -> 디코딩 base64사용
             byte[] bytes = org.apache.tomcat.util.codec.binary.Base64.decodeBase64(sb.split(",", 1)[0]);
-
             //저장시 현재 시간 userId + 현재시간.png로 저장
             LocalDateTime now = LocalDateTime.now();
             String format = now.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
@@ -88,25 +97,30 @@ public class MakeImageService {
             String adToString = file.toString();
 
             Image img = ImageIO.read(file);
-            Image resizeImg = img.getScaledInstance(1024, 1024, Image.SCALE_SMOOTH);
+            Image resizeImg = img.getScaledInstance(w, h, Image.SCALE_SMOOTH);
 
-            BufferedImage newImage = new BufferedImage(1024, 1024, BufferedImage.TYPE_INT_RGB);
+            BufferedImage newImage = new BufferedImage(w, h, BufferedImage.TYPE_INT_RGB);
             Graphics g = newImage.getGraphics();
             g.drawImage(resizeImg, 0, 0, null);
             g.dispose();
-            ImageIO.write(newImage, "png", new File("C:\\git\\group\\src\\main\\resources\\templates\\make-banner-react-template\\src\\static\\resizeImg\\" + userId + "__" + saveTime+ ".png"));
+            boolean png = ImageIO.write(newImage, "png", new File("C:\\git\\group\\src\\main\\resources\\templates\\make-banner-react-template\\src\\public\\media\\" + userId + saveTime + ".png"));
 
-            System.out.println(file);
+            if(png == true){
+                li.add(userId + saveTime + ".png");
+                System.out.println(file);
+            }
+
             // user정보를 알아야 하기 때문에 db에서 가져오기
-            User byId2 = findByIdForImageSave(userId);
-
-            // 생성된 이미지를 db에 저장
-            AdDto dto = new AdDto();
-            dto.setCreateAd(adToString);
-            dto.setPrompt(text);
-            Ad dtoEntity = dto.toEntity();
-            dtoEntity.setUserId(byId2);
-            adRepo.save(dtoEntity);
+//            Optional<User> byId = userInfo.findById(userId);
+//            User user = byId.get();
+//
+//            // 생성된 이미지를 db에 저장
+//            AdDto dto = new AdDto();
+//            dto.setCreateAd(adToString);
+//            dto.setPrompt(text);
+//            Ad dtoEntity = dto.toEntity();
+//            dtoEntity.setUserId(user);
+//            adRepo.save(dtoEntity);
             br.close();
 
 
@@ -115,7 +129,65 @@ public class MakeImageService {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        String s = li.get(0);
+        return s;
 
+    }
+
+
+    @Transactional
+    public String saveImg(String userId, String image, String prompt){
+
+        String filePath = null;
+
+        boolean a = true;
+        String resultPath = "C:\\git\\group\\src\\main\\resources\\templates\\make-banner-react-template\\src\\public\\result\\" + image;
+        while (a){
+            try {
+
+                File file = new File("C:\\Users\\OWNER\\Downloads\\" + image);
+                File newFile = new File(resultPath);
+                Files.copy(file.toPath(), newFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+                boolean exists = newFile.exists();
+                if (exists == false){
+                    wait(10L);
+                }else {
+                    a = false;
+                    filePath = newFile.toString();
+                }
+
+
+
+            }catch (InterruptedException e){
+
+            } catch (NoSuchFileException newFile){
+
+            }catch (IOException e){
+                e.printStackTrace();
+            }
+        }
+
+        Optional<User> byId = userInfo.findById(userId);
+        User user = byId.get();
+
+        User user1 = new User();
+        user1.setNum(user.getNum());
+        user1.setUserid(user.getUserid());
+        user1.setUsername(user.getUsername());
+        user1.setUserCRN(user.getUserCRN());
+        user1.setUserpassword(user.getUserpassword());
+
+        Ad b = new Ad();
+        b.setUserNum(user);
+        b.setPrompt(prompt);
+        b.setCreateAd(filePath);
+        adRepo.save(b);
+
+        return filePath;
+    }
+
+    public List<String> a (){
+        return li;
     }
 
 }

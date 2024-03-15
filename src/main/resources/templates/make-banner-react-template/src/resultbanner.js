@@ -1,19 +1,44 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from "react-router-dom";
 import './static/css/resultbanner.css';
+import axios from "axios";
+import './App.css';
+import base64 from "base-64";
 
-const Resultbanner = () => {
+
+// function App() {
+//     // message 초기값 설정 (""로 설정)
+//     const [message, setMessage] = useState("");
+//
+//     // useEffect(함수, 배열) : 컴포넌트가 화면에 나타났을 때 자동 실행
+//     useEffect(() => {
+//         // fetch(url, options) : Http 요청 함수
+//         fetch("/api/hi")
+//             .then(response => response.text())
+//             .then(message => {
+//                 setMessage(message);
+//                 console.log(message);
+//
+//             });
+//     }, [])
+const Resultbanner = React.memo(() => {
     const navigate = useNavigate();
     const location = useLocation();
     const sessionSearch = sessionStorage.getItem("userid");
+    const b = String(location.state?.path);
 
-    const [imageData, setImageData] = useState(null);
+    const im = b ? `${b.toLowerCase()}` : '';
+    const ab = require(`C:/git/group/src/main/resources/templates/make-banner-react-template/src/public/result/${im}`)
+
+    const [adData, setAdData] = useState([]);
 
     useEffect(() => {
         if (sessionSearch === null) {
             alert("로그인을 해야합니다")
             navigate("/login");
         }
+
+
     }, [sessionSearch, navigate]);
 
     const GoLogout = () => {
@@ -23,64 +48,90 @@ const Resultbanner = () => {
     const GoMain = () => {
         navigate("/main");
     }
-    // const GoLogin = () => {
-    //     navigate("/login");
-    // }
-    // const GoSignup = () => {
-    //     navigate("/signup");
-    // }
+    const GoLogin = () => {
+        navigate("/login");
+    }
+    const GoSignup = () => {
+        navigate("/signup");
+    }
     const GoSetting = () => {
         navigate("/setting");
     }
 
-    useEffect(() => {
-        // 이전 페이지에서 전달된 데이터 확인
-        console.log("전달된 데이터:", location.state);
-        const imageDataFromLocation = location.state?.image;
-        if (imageDataFromLocation) {
-            // base64 인코딩된 이미지 데이터 디코딩하여 설정
-            const decodedImage = atob(imageDataFromLocation);
-            setImageData(decodedImage);
-        }
-    }, [location.state]);
+    const GOmy = () => {
+        navigate("/mypage");
+    }
+
+
+
+
+
+    // function App() {
+    //     // message 초기값 설정 (""로 설정)
+    //     const [message, setMessage] = useState("");
+    //
+    //     // useEffect(함수, 배열) : 컴포넌트가 화면에 나타났을 때 자동 실행
+    //     useEffect(() => {
+    //         // fetch(url, options) : Http 요청 함수
+    //         fetch("/api/hi")
+    //             .then(response => response.text())
+    //             .then(message => {
+    //                 setMessage(message);
+    //             });
+    //     }, [])
+
+
+
+
 
     return (
         <body>
         <header>
             <div className="banner-header">
-                <h2 className="banner-title" onClick={GoMain}>MAKEBANNER</h2>
+
+                <h2 className="banner-title">MAKEBANNER</h2>
+
                 <div className="charts-see-all">
-                    <a className="go-login" onClick={GoLogout}>
-                        로그아웃
+
+                    <a className="go-login" href="#">
+                        로그인
                     </a>
-                    {/*<a className="go-login" onClick={GoLogin}>*/}
-                    {/*    로그인*/}
-                    {/*</a>*/}
-                    {/*<a className="go-login" onClick={GoSignup}>*/}
-                    {/*    회원가입*/}
-                    {/*</a>*/}
+
+                    <a className="go-login" href="#">
+                        회원가입
+                    </a>
+
                     <button className="go-start">
-                        <a className="go-go" onClick={GoSetting}>
+                        <a className="go-go" href="#">
                             시작하기
                         </a>
                     </button>
+
                 </div>
+
             </div>
         </header>
+
         <section>
-            <div className="result-container">
-                <h1 className="login-title">생성된 배너 확인</h1>
-                {imageData && (
-                    <img
-                        className="resultimage"
-                        src={`data:image/png;base64,${imageData}`}
-                        alt="Generated Banner"
-                    />
-                )}
+            <div className="container">
+                <div>
+                    <h2 className="res-title">배너 생성 완료</h2>
+                </div>
+
+                <div className="res-box">
+                    <img  className="ban-img" src={ab} alt=""/>
+                </div>
+
+                <button className="go-start">
+                    <a className="go-go" onClick={GOmy}>
+                        완료
+                    </a>
+                </button>
             </div>
         </section>
-        </body>
-    );
-};
 
+        </body>
+
+    );
+});
 export default Resultbanner;

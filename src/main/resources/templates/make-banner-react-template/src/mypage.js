@@ -1,11 +1,39 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import { useNavigate } from "react-router-dom";
 import './static/css/mypage.css';
+import axios from "axios";
 
 
-// 함수형 컴포넌트인 Login을 정의합니다.
 const Mypage = () => {
-    const navigate = useNavigate ();
+    const navigate = useNavigate();
+    const sessionSearch = sessionStorage.getItem("userid");
+    const [userData, setUserData] = useState(null);
+
+    const [list , SetList] = useState([]);
+
+    const handleUserData = async () => {
+        try {
+            const data = {
+                userId: sessionSearch,
+            };
+            const fetch1 = [];
+            const fetch2 = [];
+
+            const response = await axios.post('/api/myPage', data);
+
+            const res = response.data
+            console.log(response)
+
+
+            setUserData(res);
+        } catch (error) {
+            console.error('API 호출 에러:', error);
+        }
+    };
+
+    useEffect(() => {
+        handleUserData();
+    }, []);
 
     const GoLogin = () => {
         navigate("/login");
@@ -13,82 +41,52 @@ const Mypage = () => {
     const GoSignup = () => {
         navigate("/signup");
     }
-    const GoSetting = () =>{
+    const GoSetting = () => {
         navigate("/setting")
     }
-    // JSX를 반환하여 화면을 구성합니다.
+
+    if (!userData) return null;
+
     return (
         <body>
         <header>
-            <div class="banner-header">
-
-                <h2 class="banner-title">MAKEBANNER</h2>
-
-                <div class="charts-see-all">
-
-                    <a class="go-login" onClick={GoLogin}>
-                        로그인
-                    </a>
-
-                    <a class="go-login" onClick={GoSignup}>
-                        회원가입
-                    </a>
-
-                    <button class="go-start">
-                        <a class="go-go" onClick={GoSetting}>
-                            시작하기
-                        </a>
+            <div className="banner-header">
+                <h2 className="banner-title">MAKEBANNER</h2>
+                <div className="charts-see-all">
+                    <a className="go-login" onClick={GoLogin}>로그인</a>
+                    <a className="go-login" onClick={GoSignup}>회원가입</a>
+                    <button className="go-start">
+                        <a className="go-go" onClick={GoSetting}>시작하기</a>
                     </button>
-
                 </div>
-
             </div>
         </header>
-
         <section>
-            <div class="container">
-
-                <div class="mypage-t">MY PAGE</div>
-
-                <div class="img-con">
-                    {/* <img src="image/free-icon-user-2663969.png"> */}
+            <div className="container">
+                <div className="mypage-t">MY PAGE</div>
+                <div className="img-con"></div>
+                <div className="id">id_@</div>
+                <div className="box"><div className="box-t">이름</div></div>
+                <div className="box">
+                    <div className="box-t">아이디</div>
+                    <div className="con">id_@</div>
                 </div>
-
-                <div class="id">id_@</div>
-
-                <div class="box">
-                    <div class="box-t">이름</div>
+                <div className="box"><div className="box-t">비밀번호</div></div>
+                <div className="box"><div className="box-t">사업자등록번</div></div>
+                <div className="box"><div className="box-t">쿠폰</div></div>
+                <div className="but-box">
+                    <button className="fix-but">회원정보수정</button>
                 </div>
+            </div>
 
-                <div class="box">
-                    <div class="box-t">아이디</div>
-                    <div class="con">id_@ </div>
-                </div>
-
-                <div class="box">
-                    <div class="box-t">비밀번호</div>
-                </div>
-
-                <div class="box">
-                    <div class="box-t">사업자등록번</div>
-                </div>
-
-                <div class="box">
-                    <div class="box-t">쿠폰</div>
-                </div>
-
-                <div class="but-box">
-                    <button class="fix-but">
-                        회원정보수정
-                    </button>
-                </div>
-
+            <div className="App">
 
 
             </div>
-        </section>
 
+        </section>
         </body>
     );
 };
+
 export default Mypage;

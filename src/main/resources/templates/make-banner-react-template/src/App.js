@@ -9,7 +9,6 @@ import Resultbanner from "./resultbanner";
 import Main from"./main"
 
 
-
 export default function App() {
   return (
       <div className="App">

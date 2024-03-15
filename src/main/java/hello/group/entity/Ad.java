@@ -1,5 +1,6 @@
 package hello.group.entity;
 
+import hello.group.dto.AdDto;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,11 +23,15 @@ public class Ad {
 
     @ManyToOne
     @JoinColumn(name = "user_num")
-    private User userId;
+    private User userNum;
 
     public Ad(Long createId, String createAd, String prompt) {
         this.createId = createId;
         this.createAd = createAd;
         this.prompt = prompt;
+    }
+
+    public AdDto toDto(){
+        return new AdDto(createId, createAd, prompt);
     }
 }

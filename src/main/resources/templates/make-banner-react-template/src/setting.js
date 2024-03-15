@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from "react-router-dom";
+import {useLocation, useNavigate } from "react-router-dom";
 import axios from 'axios';
 import './static/css/setting.css';
 
@@ -50,9 +50,16 @@ const Makebanner = () => {
 
             // POST 요청을 보내고 응답 받기
             const response = await axios.post('/api/makebanner', data);
+            const res = response.data
+            console.log(res)
 
             // 응답 데이터 출력
             console.log(response.data);
+            setTimeout(() => {
+                console.log("Delayed for 1 second.");
+                navigate('/makebanner', {state : {path: res, prompt : bannerSubject }});
+            }, 1000)
+            // navigate('/makebanner', {state : res});
         } catch (error) {
             console.error('Error submitting banner data:', error);
         }
@@ -157,7 +164,7 @@ const Makebanner = () => {
                     </div>
 
 
-                    <button class="login-but" type='submit'>결과 보기</button>
+                    <button class="login-but" type='submit' onClick={handleBannerSubmit}>결과 보기</button>
                 </form>
             </div>
         </section>
