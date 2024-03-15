@@ -1,0 +1,144 @@
+* {
+    box-sizing: border-box;
+}
+
+html {
+    word-break: keep-all;
+    font-family: Pretendard, sans-serif;
+    font-size: 16px;
+    line-height: 19px;
+}
+
+body {
+    background-color: #F7F6F9;
+    color: #000000;
+    margin: 0;
+}
+header {
+    height: 80px;
+    padding: 16px;
+    background-color: #FFFFFF;
+    font-weight: 700;
+    box-shadow: 0 4px 4px 1px rgba(0,0,0,0.1);
+    position: fixed;
+    top: 0;
+    width: 100%;
+}
+
+.banner-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 10px 0;
+}
+
+.banner-title {
+    margin: auto 80px;
+    color: #7C00FF;
+    font-weight: bold;
+}
+
+.charts-see-all {
+    margin: auto 30px;
+}
+
+.go-login{
+    display: inline-block;
+    margin: auto 20px;
+    font-size: 16px;
+    font-weight: normal;
+    text-decoration: none;
+    color: black;
+}
+.go-start{
+    background-color: #7C00FF;
+    border-radius: 5px;
+    border: none;
+    padding: 10px;
+    margin:auto 15px;
+}
+.go-go{
+    display: inline-block;
+    margin: auto 5px;
+    font-size: 16px;
+    font-weight: normal;
+    text-decoration: none;
+    color: #FFFFFF;
+}
+
+.container{
+    width: 600px;
+    padding: 60px;
+    margin: 130px auto 20px;
+    background-color: white;
+    border-radius: 3px;
+    box-shadow: 2px 1px 10px 1px rgba(0,0,0,0.1);
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.mypage-t{
+    font-size: 30px;
+    margin: 20px auto;
+    color: #7C00FF;
+    font-weight: bold;
+
+}
+
+.img-con{
+    display: flex;
+    justify-content: center;
+
+}
+img{
+    width: 120px;
+    height: 120px;
+    object-fit: contain;
+}
+.id{
+    display: flex;
+    justify-content: center;
+    margin: 20px auto;
+    font-size: 30px;
+
+}
+.box{
+    border: none;
+    background-color: #F7F6F9;
+    display: flex;
+    box-shadow: 2px 1px 10px 1px rgba(0,0,0,0.1);
+    margin: 10px;
+    height: 45px;
+    border-radius: 5px;
+}
+
+.box-t{
+    float: left;
+    margin: 20px;
+    line-height: 10px;
+    font-size: 15px;
+    color: #4e4e4e;
+}
+
+.con{
+    float: left;
+    line-height: 10px;
+    margin: 20px;
+    font-size: 15px;
+    color: #000000;
+
+}
+
+.fix-but{
+    float: right;
+    text-align: center;
+    background-color: #7C00FF;
+    color: white;
+    border-radius: 5px;
+    border: none;
+    font-size: 15px;
+    height: 40px;
+    width: 170px;
+    margin: 25px auto;
+}
