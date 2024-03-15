@@ -1,15 +1,21 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { useNavigate } from "react-router-dom";
+import {useLocation, useNavigate} from "react-router-dom";
 import axios from 'axios';
 import '@toast-ui/editor/dist/toastui-editor.css';
 import 'tui-image-editor/dist/tui-image-editor.css';
 import { ImageEditor as TuiImageEditor } from '@toast-ui/react-image-editor';
-import imgLogo from './static/images/chun__20240309214553.png';
+// import imgLogo from './public/media';
 import './static/css/makebanner.css'
 
 const Makebanner = () => {
     const navigate = useNavigate ();
     const sessionSearch = sessionStorage.getItem("userid");
+    const location = useLocation();
+    const state = location.state?.path;
+    const prompt = location.state?.prompt;
+    const b = String(state);
+    const im = b ? `${b.toLowerCase()}` : '';
+    const a = require(`C:/git/group/src/main/resources/templates/make-banner-react-template/src/public/media/${im}`)
 
     const GoMain = () => {
         navigate("/main");
@@ -49,7 +55,7 @@ const Makebanner = () => {
                 const base64data = fileReader.result.split(',')[1]; // 데이터의 첫 부분이 헤더인데, 이를 제거합니다.
 
                 // 이미지 데이터를 서버로 전송
-                sendImageToServer(base64data);
+                sendImageToServer(base64data.json);
             };
             fileReader.readAsDataURL(blob);
         } catch (error) {
@@ -59,12 +65,19 @@ const Makebanner = () => {
 
     const sendImageToServer = async (base64Image) => {
         try {
+            const data = {
+                userId: sessionSearch,
+                prompt: prompt,
+                filename: im
+            };
             // 이미지 데이터를 서버로 전송
-            const response = await axios.post('/api/editorPage', { image: base64Image });
-            const imageData = response.data;
-            // 응답 데이터 출력
+            const response = await axios.post('/api/editorPage', data);
+            const res = response.data
+
             console.log(response.data);
-            navigate("/resultbanner", {originalImageData, additionalData: 'Hello World'});
+            setTimeout(() => {
+                navigate('/resultbanner', {state : {path : res}});
+            }, 1000)
         } catch (error) {
             console.error('배너 데이터를 제출하는 중 에러 발생:', error);
         }
@@ -74,7 +87,7 @@ const Makebanner = () => {
         const instance = new ImageEditor(document.querySelector('#tui-image-editor'), {
             includeUI: {
                 loadImage: {
-                    path: imgLogo,
+                    path: a,
                     name: 'dkfl',
                 },
                 menuBarPosition: 'bottom',
@@ -95,8 +108,9 @@ const Makebanner = () => {
             if (editorInstance) {
                 // 이미지를 base64로 인코딩하지 않고, 이미지 데이터를 editorInstance에서 직접 가져와서 서버로 전송합니다.
                 const imageData = editorInstance.toDataURL();
-                setOriginalImageData(imageData);
+                dowmloadImage(imageData);
                 sendImageToServer(imageData);
+
             } else {
                 console.error("에디터 인스턴스를 찾을 수 없습니다.");
             }
@@ -104,6 +118,18 @@ const Makebanner = () => {
             console.error('배너 데이터를 제출하는 중 에러 발생:', error);
         }
     };
+    const dowmloadImage =(base64Image) => {
+        const link = document.createElement('a')
+        const resultPath = String(im)
+        link.href = base64Image;
+        link.download = `${im}`;
+        link.setAttribute('target', '_blank');
+        link.setAttribute('download', resultPath);
+
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    }
 
     return(
         <body>
@@ -156,6 +182,7 @@ const Makebanner = () => {
                 <button class="login-but"
                     onClick={handleSave}>결과 보기</button>
             </div>
+
 
 
 

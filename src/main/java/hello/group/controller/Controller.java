@@ -1,18 +1,25 @@
 package hello.group.controller;
-import hello.group.dto.HelloUserinfo;
+import hello.group.dto.*;
+import hello.group.entity.Ad;
 import hello.group.entity.User;
 import hello.group.service.MakeImageService;
 import hello.group.service.UserInfoService;
+import jakarta.persistence.EntityManager;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 import java.util.Map;
+import java.util.Optional;
+
 import org.springframework.http.HttpStatus;
 
 
@@ -27,6 +34,9 @@ public class Controller {
 
     @Autowired
     private MakeImageService makeImageService;
+
+    @Autowired
+    private EntityManager em;
 
     @CrossOrigin(origins = "http://localhost:3000", allowedHeaders = "*", allowCredentials = "true")
     @PostMapping("/signup")
@@ -80,6 +90,8 @@ public class Controller {
         String subject = bannerInfo.get("subject");
         String widthsize = bannerInfo.get("widthsize");
         String heightsize = bannerInfo.get("heightsize");
+        int w = Integer.parseInt(widthsize);
+        int h = Integer.parseInt(heightsize);
         String text = bannerInfo.get("text");
         String autoText = bannerInfo.get("autotext");
         String userId = bannerInfo.get("userid");
@@ -96,33 +108,72 @@ public class Controller {
         String replaceText = subject.replaceAll(" ", "/");
         System.out.println(replaceText);
 
-        makeImageService.getImage(replaceText, userId, subject);
+        String image = makeImageService.getImage(replaceText, userId, subject, w, h);
+        System.out.println(image);
 
-        return ResponseEntity.ok("Received banner settings");
+
+        return ResponseEntity.ok(image);
+
 
     }
     @PostMapping("/editorPage")
-    public ResponseEntity<String> handleBannerData(@RequestBody BannerData bannerData) {
+    public ResponseEntity<String> handleBannerData(@RequestBody GetBannerImage getBannerImage) {
         // 받은 이미지 데이터 처리
-        String image = bannerData.getImage();
+        String image = getBannerImage.getFilename();
+        String userId = getBannerImage.getUserId();
+        String prompt = getBannerImage.getPrompt();
         System.out.println("이미지를 받아왔습니다: " + image);
+        System.out.println("이미지를 받아왔습니다: " + userId);
+        System.out.println("이미지를 받아왔습니다: " + prompt);
+
+        String s = makeImageService.saveImg(userId, image, prompt);
+        System.out.println(s);
+
+        //String a = s.replaceAll("\\\\", "/");
+
+
+        System.out.println("=================================");
+
+        //Map<List<String>, List<String>> byId = userInfoService.findById2(userId);
+        //String string = byId.toString();
+
+
         // 간단한 응답 생성
         String responseMessage = "이미지 데이터를 성공적으로 받았습니다.";
-        return new ResponseEntity<>(image, HttpStatus.OK);
+        return ResponseEntity.ok(image);
 
     }
 
-    public static class BannerData {
-        private String image;
+    @CrossOrigin(origins = "http://localhost:3000", allowedHeaders = "*", allowCredentials = "true")
+    @GetMapping("/resultPage")
+    public ResponseEntity<String> handleBannerData2() {
 
-        public String getImage() {
-            return image;
-        }
+        // 간단한 응답 생성
+        String responseMessage = "이미지 데이터를 성공적으로 받았습니다.";
+        return ResponseEntity.ok("ok");
 
-        public void setImage(String image) {
-            this.image = image;
-        }
     }
+
+    @CrossOrigin(origins = "http://localhost:3000", allowedHeaders = "*", allowCredentials = "true")
+    @PostMapping("/myPage")
+    public List<Ad> userInfo (@RequestBody Hello getBannerImage){
+
+        String userId = getBannerImage.getUserId();
+        List<Ad> byId = userInfoService.findById2(userId);
+        System.out.println(byId);
+
+        return byId;
+    }
+
+
+    @GetMapping("hi")
+    public List<Ad> a (){
+        String userId = "a";
+        List<Ad> byId = userInfoService.findById2(userId);
+
+        return byId;
+    }
+
 
 }
 
