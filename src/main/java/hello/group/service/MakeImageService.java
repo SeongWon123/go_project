@@ -39,7 +39,6 @@ public class MakeImageService {
     @Autowired
     private EntityManager em;
 
-    private List<String> li = new ArrayList<>();
 
 //    public User findByIdForImageSave(String userid) {
 //        // 이미지 저장시 유저정보 필요
@@ -50,12 +49,14 @@ public class MakeImageService {
 //        return user;
 //    }
 
+    @Transactional
     public String getImage(String replaceText, String userId, String text,int w, int h) {
 
 
         String url = "http://127.0.0.1:8000/tospring" + "?" + "q=" + replaceText;
         String sb = "";
 
+        List<String> li = new ArrayList<>();
 
         // 3000/makebanner
         try {
@@ -132,8 +133,8 @@ public class MakeImageService {
         String s = li.get(0);
         return s;
 
-    }
 
+    }
 
     @Transactional
     public String saveImg(String userId, String image, String prompt){
@@ -141,7 +142,8 @@ public class MakeImageService {
         String filePath = null;
 
         boolean a = true;
-        String resultPath = "C:\\git\\group\\src\\main\\resources\\templates\\make-banner-react-template\\src\\public\\result\\" + image;
+        String resultPath = "C:\\git\\group\\src\\main\\resources\\templates\\make-banner-react-template\\public\\result\\" + image;
+        String resultPath2 = "\\result\\" + image;
         while (a){
             try {
 
@@ -180,14 +182,11 @@ public class MakeImageService {
         Ad b = new Ad();
         b.setUserNum(user);
         b.setPrompt(prompt);
-        b.setCreateAd(filePath);
+        b.setCreateAd(resultPath2);
         adRepo.save(b);
 
-        return filePath;
+        return resultPath2;
     }
 
-    public List<String> a (){
-        return li;
-    }
 
 }

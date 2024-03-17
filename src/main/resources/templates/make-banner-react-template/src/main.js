@@ -1,14 +1,26 @@
 import { useNavigate } from "react-router-dom";
 import './static/css/main.css';
-import React from "react";
+import React, {useEffect} from "react";
 import mainImg1 from "./static/resultImg/main1.jpg"
 import mainImg2 from "./static/resultImg/main2.png"
 import mainImg3 from "./static/resultImg/main3.jpg"
 const Main = () => {
     const navigate = useNavigate();
+    const sessionSearch = sessionStorage.getItem("userid");
+
 
     const GoLogin = () => {
+
+        if (sessionSearch === null) {
+            alert("로그인을 해야합니다")
+            navigate("/login");
+        }
         navigate("/login");
+    }
+
+    const GoLogout = () => {
+        sessionStorage.removeItem("userid");
+        navigate("/main");
     }
 
     const GoSignup = () => {
@@ -19,17 +31,22 @@ const Main = () => {
         navigate("/setting");
     }
 
+    const GoMyPage = () => {
+        navigate("/mypage");
+    }
+
+
     return (
                 <body>
                 <header>
                     <div className="banner-header">
                         <h2 className="banner-title">MAKEBANNER</h2>
                         <div className="charts-see-all">
-                            <a className="go-login" onClick={GoLogin}>
+                            <a className="go-login" id= "login" onClick={GoLogin}>
                                 로그인
                             </a>
-                            <a className="go-login" onClick={GoSignup}>
-                                회원가입
+                            <a className="go-login" onClick={GoMyPage}>
+                                내정보
                             </a>
                             <button className="go-start">
                                 <a className="go-go" onClick={GoSetting}>

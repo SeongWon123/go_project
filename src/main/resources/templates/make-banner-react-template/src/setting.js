@@ -57,8 +57,9 @@ const Makebanner = () => {
             console.log(response.data);
             setTimeout(() => {
                 console.log("Delayed for 1 second.");
+
                 navigate('/makebanner', {state : {path: res, prompt : bannerSubject }});
-            }, 1000)
+            }, 5000)
             // navigate('/makebanner', {state : res});
         } catch (error) {
             console.error('Error submitting banner data:', error);
