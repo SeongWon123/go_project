@@ -1,27 +1,20 @@
 package hello.group.controller;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import hello.group.dto.*;
-import hello.group.entity.Ad;
-import hello.group.entity.User;
 import hello.group.service.MakeImageService;
 import hello.group.service.UserInfoService;
 import jakarta.persistence.EntityManager;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.List;
 import java.util.Map;
-import java.util.Optional;
-
-import org.springframework.http.HttpStatus;
-
 
 @RestController
 @RequestMapping("/api")
@@ -156,24 +149,24 @@ public class Controller {
 
     @CrossOrigin(origins = "http://localhost:3000", allowedHeaders = "*", allowCredentials = "true")
     @PostMapping("/myPage")
-    public List<Ad> userInfo (@RequestBody Hello getBannerImage){
+    public String userInfo (@RequestBody Hello getBannerImage){
 
         String userId = getBannerImage.getUserId();
-        List<Ad> byId = userInfoService.findById2(userId);
-        System.out.println(byId);
+        Map<String, String> byId = userInfoService.findById2(userId);
 
-        return byId;
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        // Map을 JSON 문자열로 변환
+        String jsonString = null;
+        try {
+            jsonString = objectMapper.writeValueAsString(byId);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        System.out.println(jsonString.toString());
+
+        return jsonString;
     }
-
-
-    @GetMapping("hi")
-    public List<Ad> a (){
-        String userId = "a";
-        List<Ad> byId = userInfoService.findById2(userId);
-
-        return byId;
-    }
-
 
 }
 

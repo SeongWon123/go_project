@@ -38,7 +38,7 @@ const Makebanner = () => {
 
     const GoLogout = () => {
         sessionStorage.removeItem("userid");
-        navigate("/login");
+        navigate("/main");
     }
 
     const editorRef = useRef();

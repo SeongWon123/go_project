@@ -28,7 +28,7 @@ const Resultbanner = React.memo(() => {
     const b = String(location.state?.path);
 
     const im = b ? `${b.toLowerCase()}` : '';
-    const ab = require(`C:/git/group/src/main/resources/templates/make-banner-react-template/src/public/result/${im}`)
+    const ab = require(`C:/git/group/src/main/resources/templates/make-banner-react-template/public/result/${im}`)
 
     const [adData, setAdData] = useState([]);
 
@@ -119,11 +119,11 @@ const Resultbanner = React.memo(() => {
                 </div>
 
                 <div className="res-box">
-                    <img  className="ban-img" src={ab} alt=""/>
+                    <img  className="result-image" src={ab} alt=""/>
                 </div>
 
                 <button className="go-start">
-                    <a className="go-go" onClick={GOmy}>
+                    <a className="go-go" onClick={GoMain}>
                         완료
                     </a>
                 </button>
