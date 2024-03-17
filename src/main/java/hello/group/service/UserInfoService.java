@@ -1,8 +1,9 @@
 package hello.group.service;
 
-import hello.group.dto.AdDto;
+
+import hello.group.dto.AdList;
 import hello.group.dto.HelloUserinfo;
-import hello.group.entity.Ad;
+
 import hello.group.entity.User;
 import hello.group.repository.AdRepository;
 import hello.group.repository.UserInfo;
@@ -10,18 +11,7 @@ import jakarta.persistence.EntityManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import java.io.*;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
+import java.util.*;
 
 @Service
 public class UserInfoService {
@@ -75,18 +65,26 @@ public class UserInfoService {
 
 
     @Transactional
-    public List<Ad> findById2(String userid) {
+    public Map<String, String> findById2(String userid) {
         // 이미지 저장시 유저정보 필요
         Optional<User> byId = userInfo.findById(userid);
         User user = byId.get();
         Long Num = user.getNum();
-        //List<Ad> userNum = em.createQuery("select s from Ad s join s.userNum t where " + "t.num=:id", Ad.class).setParameter("id", Num).getResultList();
-        List<Ad> id = em.createQuery("select new hello.group.dto.AdList(s.prompt, s.createAd) from Ad s join s.userNum t where t.num=:id", Ad.class)
+        List<AdList> id = em.createQuery("select new hello.group.dto.AdList(s.prompt, s.createAd) from Ad s join s.userNum t where t.num=:id", AdList.class)
                 .setParameter("id", Num)
                 .getResultList();
 
+        Map<String, String> resultMap = new HashMap<>();
 
-        return id;
+        for (AdList ad : id) {
+            String field1 = ad.getField1();
+            String field2 = ad.getField2();
+            resultMap.put(field1, field2);
+        }
+        System.out.println(resultMap);
+
+
+        return resultMap;
     }
 
 }

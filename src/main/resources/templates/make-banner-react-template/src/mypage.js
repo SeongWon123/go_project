@@ -7,34 +7,40 @@ import axios from "axios";
 const Mypage = () => {
     const navigate = useNavigate();
     const sessionSearch = sessionStorage.getItem("userid");
-    const [userData, setUserData] = useState(null);
+    const [jsonData, setUserData] = useState({});
+    const objectData = {};
 
-    const [list , SetList] = useState([]);
-
-    const handleUserData = async () => {
-        try {
-            const data = {
-                userId: sessionSearch,
-            };
-            const fetch1 = [];
-            const fetch2 = [];
-
-            const response = await axios.post('/api/myPage', data);
-
-            const res = response.data
-            console.log(response)
-
-
-            setUserData(res);
-        } catch (error) {
-            console.error('API 호출 에러:', error);
-        }
-    };
+    const [imageList, setImageList] = useState([]);
 
     useEffect(() => {
-        handleUserData();
-    }, []);
+        const fetchData = async () => {
+            try {
 
+                const data = {
+                    userId: sessionSearch,
+                };
+
+                const response = await axios.post('/api/myPage', data);
+
+                setUserData(response.data)
+
+//                 const keys = Object.keys(response.data);
+//                 const values = Object.values(response.data);
+//
+// // 배열을 순회하며 각 key와 value를 출력
+//                 keys.forEach((key, index) => {
+//                     console.log(`${key}: ${values[index]}`);
+//                 });
+//                 setTimeout(() => {
+//                 }, 1000)
+
+            } catch (error) {
+                console.error('API 호출 에러:', error);
+            }
+        };
+
+        fetchData();
+    }, []);
     const GoLogin = () => {
         navigate("/login");
     }
@@ -45,7 +51,7 @@ const Mypage = () => {
         navigate("/setting")
     }
 
-    if (!userData) return null;
+    // if (!userData) return null;
 
     return (
         <body>
@@ -77,12 +83,39 @@ const Mypage = () => {
                 <div className="but-box">
                     <button className="fix-but">회원정보수정</button>
                 </div>
-            </div>
 
-            <div className="App">
+                <div className="use-con">
+                    <h2 className="use-title">나의 배너리스트</h2>
+
+                    <div className="list-box">
+
+                        <ul>
+                            {Object.keys(jsonData).map((key, index) => (
+                                <li key={index}>
+                                    <div className="list-name">
+                                        {key}
+                                    </div>
+                                    <div className="list-img">
+                                        <div className="ban-box">
+                                            <img className="result-image" src={jsonData[key]} />
+                                        </div>
+                                    </div>
+                                </li>
+                            ))}
+                        </ul>
 
 
-            </div>
+                    </div>
+
+                </div>
+
+
+                </div>
+
+                <div className="App">
+
+
+                </div>
 
         </section>
         </body>
