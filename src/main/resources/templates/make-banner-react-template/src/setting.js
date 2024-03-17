@@ -13,6 +13,12 @@ const Makebanner = () => {
     const [bannerheightSize, setheightSize] = useState("");
     const [bannerText, setBannerText] = useState("");
     const [bannerautoText, setautoBannerText] = useState("");
+    const [isDirectInput, setIsDirectInput] = useState(false); // 직접 입력 체크 여부
+    const [isAutoInput, setIsAutoInput] = useState(false); // 추천 문구 입력 체크 여부
+
+
+
+
 
     useEffect(() => {
         if (sessionSearch === null) {
@@ -28,12 +34,32 @@ const Makebanner = () => {
         sessionStorage.removeItem("userid");
         navigate("/login");
     }
+    const GoMyPage = () => {
+        navigate("/mypage");
+    }
     // const GoSignup = () => {
     //   navigate("/signup");
     // }
     const GoSetting = () =>{
         navigate("/setting")
     }
+
+    const handleDirectInputChange = (e) => {
+        setIsDirectInput(e.target.checked);
+        if (e.target.checked) {
+            setIsAutoInput(false); // 직접 입력 체크 시 추천 문구 입력 체크 해제
+            setautoBannerText(""); // 추천 문구 입력값 초기화
+        }
+    }
+
+    const handleAutoInputChange = (e) => {
+        setIsAutoInput(e.target.checked);
+        if (e.target.checked) {
+            setIsDirectInput(false); // 추천 문구 입력 체크 시 직접 입력 체크 해제
+            setBannerText(""); // 직접 입력값 초기화
+        }
+    }
+
     const handleBannerSubmit = async (event) => {
         event.preventDefault(); // 페이지 리로딩 방지
         try {
@@ -42,10 +68,11 @@ const Makebanner = () => {
                 subject: bannerSubject,
                 widthsize: bannerwidthSize,
                 heightsize: bannerheightSize,
-                text: bannerText,
-                autotext: bannerautoText,
+                text: isDirectInput ? bannerText : "", // 직접 입력이면 bannerText, 추천문구이면 bannerautoText
+                autotext: isAutoInput ? bannerautoText : '',
                 userid : sessionSearch
             };
+
             console.log(data)
 
             // POST 요청을 보내고 응답 받기
@@ -79,9 +106,9 @@ const Makebanner = () => {
                         로그아웃
                     </a>
 
-                    {/* <a class="go-login" onClick={GoSignup}>
-        회원가입
-      </a> */}
+                    <a class="go-login" onClick={GoMyPage}>
+                        마이페이지
+                    </a>
 
                     <button class="go-start">
                         <a class="go-go" onClick={GoSetting}>
@@ -133,36 +160,37 @@ const Makebanner = () => {
 
 
                     <label class="la-t">배너 문구</label>
-
                     <div className="check_wrap">
-                        <input type="checkbox" id="check_btn1"/>
+                        <input type="checkbox" id="check_btn1" checked={isDirectInput} onChange={handleDirectInputChange}/>
                         <label for="check_btn1"><span>문구 직접입력</span></label>
                     </div>
-
-                    <input className="in-t"
-                           name="text"
-                           type="text"
-                           value={bannerText}
-                           onChange={(e) => setBannerText(e.target.value)}
-                           placeholder="추천 문구를 직접 입력해주세요."
-                    />
+                    {isDirectInput && (
+                        <input className="in-t"
+                               name="text"
+                               type="text"
+                               value={bannerText}
+                               onChange={(e) => setBannerText(e.target.value)}
+                               placeholder="추천 문구를 직접 입력해주세요."
+                        />
+                    )}
 
                     <div className="check_wrap">
-                        <input type="checkbox" id="check_btn2"/>
+                        <input type="checkbox" id="check_btn2" checked={isAutoInput} onChange={handleAutoInputChange}/>
                         <label for="check_btn2"><span>문구 추천받기</span></label>
                     </div>
+                    {isAutoInput && (
+                        <div className="check">
+                            <input className="in-t"
+                                   type="text"
+                                   name="text"
+                                   value={bannerautoText}
+                                   onChange={(e) => setautoBannerText(e.target.value)}
+                                   placeholder="배너 추천 문구"/>
+                            <button>확인</button>
+                        </div>
+                    )}
 
-                    <button class="rec-but">문구 추천받기</button>
 
-                    <div className="check">
-                        <input className="in-t"
-                               type="text"
-                               name="text"
-                               value={bannerautoText}
-                               onChange={(e) => setautoBannerText(e.target.value)}
-                               placeholder="배너 추천 문구"/>
-                        <button>확인</button>
-                    </div>
 
 
                     <button class="login-but" type='submit' onClick={handleBannerSubmit}>결과 보기</button>

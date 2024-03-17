@@ -8,12 +8,17 @@ const Mypage = () => {
     const navigate = useNavigate();
     const sessionSearch = sessionStorage.getItem("userid");
     const [jsonData, setUserData] = useState({});
-    const objectData = {};
 
-    const [imageList, setImageList] = useState([]);
+
 
     useEffect(() => {
-        const fetchData = async () => {
+        if (sessionSearch === null) {
+            alert("로그인을 해야합니다")
+            navigate("/login");
+        }
+
+
+    const fetchData = async () => {
             try {
 
                 const data = {
@@ -24,15 +29,6 @@ const Mypage = () => {
 
                 setUserData(response.data)
 
-//                 const keys = Object.keys(response.data);
-//                 const values = Object.values(response.data);
-//
-// // 배열을 순회하며 각 key와 value를 출력
-//                 keys.forEach((key, index) => {
-//                     console.log(`${key}: ${values[index]}`);
-//                 });
-//                 setTimeout(() => {
-//                 }, 1000)
 
             } catch (error) {
                 console.error('API 호출 에러:', error);
@@ -40,7 +36,8 @@ const Mypage = () => {
         };
 
         fetchData();
-    }, []);
+    }, [sessionSearch, navigate]);
+
     const GoLogin = () => {
         navigate("/login");
     }
@@ -50,6 +47,14 @@ const Mypage = () => {
     const GoSetting = () => {
         navigate("/setting")
     }
+    const GoLogout = () => {
+        sessionStorage.removeItem("userid");
+        navigate("/login");
+    }
+    const GoMyPage = () => {
+        navigate("/mypage");
+    }
+
 
     // if (!userData) return null;
 
@@ -59,8 +64,8 @@ const Mypage = () => {
             <div className="banner-header">
                 <h2 className="banner-title">MAKEBANNER</h2>
                 <div className="charts-see-all">
-                    <a className="go-login" onClick={GoLogin}>로그인</a>
-                    <a className="go-login" onClick={GoSignup}>회원가입</a>
+                    <a className="go-login" onClick={GoLogout}>로그아웃</a>
+                    <a className="go-login" onClick={GoMyPage}>마이페이지</a>
                     <button className="go-start">
                         <a className="go-go" onClick={GoSetting}>시작하기</a>
                     </button>
