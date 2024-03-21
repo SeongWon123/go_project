@@ -65,26 +65,41 @@ public class UserInfoService {
 
 
     @Transactional
-    public Map<String, String> findById2(String userid) {
+    public Map<String, List<String>> findById2(String userid) {
         // 이미지 저장시 유저정보 필요
         Optional<User> byId = userInfo.findById(userid);
         User user = byId.get();
         Long Num = user.getNum();
-        List<AdList> id = em.createQuery("select new hello.group.dto.AdList(s.prompt, s.createAd) from Ad s join s.userNum t where t.num=:id", AdList.class)
+        List<AdList> id = em.createQuery("select new hello.group.dto.AdList(s.prompt, s.imagePath) from Ad s join s.userNum t where t.num=:id", AdList.class)
                 .setParameter("id", Num)
                 .getResultList();
+        System.out.println(id);
 
-        Map<String, String> resultMap = new HashMap<>();
+        Map<String, List<String>> resultMap = new LinkedHashMap<>();
 
         for (AdList ad : id) {
             String field1 = ad.getField1();
             String field2 = ad.getField2();
-            resultMap.put(field1, field2);
+
+            if (!resultMap.containsKey(field1)) {
+                resultMap.put(field1, new ArrayList<>());
+            }
+            resultMap.get(field1).add(field2);
+
         }
+
+
         System.out.println(resultMap);
 
 
         return resultMap;
+    }
+
+    public HelloUserinfo a(String userid){
+        Optional<User> byId = userInfo.findById(userid);
+        User user = byId.get();
+        HelloUserinfo dto = user.toDto();
+        return dto;
     }
 
 }

@@ -3,28 +3,28 @@ import {useLocation, useNavigate} from "react-router-dom";
 import axios from 'axios';
 import '@toast-ui/editor/dist/toastui-editor.css';
 import 'tui-image-editor/dist/tui-image-editor.css';
-import { ImageEditor as TuiImageEditor } from '@toast-ui/react-image-editor';
-// import imgLogo from './public/media';
 import './static/css/makebanner.css'
+import {GridLoader} from 'react-spinners';
+
 
 const Makebanner = () => {
     const navigate = useNavigate ();
+    const [loding, setLoding] = useState(true);
+
     const sessionSearch = sessionStorage.getItem("userid");
     const location = useLocation();
-    const state = location.state?.path;
     const prompt = location.state?.prompt;
-    const b = String(state);
-    const im = b ? `${b.toLowerCase()}` : '';
-    const a = require(`C:/git/group/src/main/resources/templates/make-banner-react-template/src/public/media/${im}`)
+    const text = location.state?.text;
+    const autoText = location.state?.autotext;
+    const imageData = location.state?.response || {};
+    const [imageSrc, setImageSrc] = useState();
+    const [seed, setSeed] = useState();
+    const [imagesLoaded, setImagesLoaded] = useState(false);
+    console.log(imageData)
+
 
     const GoMain = () => {
         navigate("/main");
-    }
-    const GoLogin = () => {
-        navigate("/login");
-    }
-    const GoSignup = () => {
-        navigate("/signup");
     }
     const GoSetting = () =>{
         navigate("/setting")
@@ -43,10 +43,22 @@ const Makebanner = () => {
 
     const editorRef = useRef();
     const [editorInstance, setEditorInstance] = useState(null);
-    const [originalImageData, setOriginalImageData] = useState(null);
 
     const ImageEditor = require('tui-image-editor')
-    const onUploadImage = async (blob, callback) => {
+
+    const handleClick = (e,data) => {
+        console.log(e)
+        const getImgSrc = `${e}`;
+        setImageSrc(getImgSrc);
+        console.log(data.key)
+        setSeed(data.key)
+    };
+
+    async function delay(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+    }
+
+    const onUploadImage = async (blob, callback) => {//없어도됨
         // 이미지를 Blob 형식으로 받아와서 처리할 수 있습니다.
 
         try {
@@ -61,33 +73,40 @@ const Makebanner = () => {
         } catch (error) {
             console.error('이미지 업로드 중 오류 발생:', error);
         }
-    };
+    };//없어도됨
 
-    const sendImageToServer = async (base64Image) => {
+    const sendImageToServer = async (e) => {
+
         try {
+
             const data = {
                 userId: sessionSearch,
                 prompt: prompt,
-                filename: im
+                filename: imageSrc,
+                seed :  seed
             };
+
             // 이미지 데이터를 서버로 전송
             const response = await axios.post('/api/editorPage', data);
             const res = response.data
 
-            console.log(response.data);
             setTimeout(() => {
-                navigate('/resultbanner', {state : {path : res}});
-            }, 1000)
+                console.log(res);
+            }, 5000)
+
+            navigate('/resultbanner', {state : {path : res}});
+
+
         } catch (error) {
             console.error('배너 데이터를 제출하는 중 에러 발생:', error);
         }
     };
 
-    useEffect(() => {
+    const loadImageCallback = () => {
         const instance = new ImageEditor(document.querySelector('#tui-image-editor'), {
             includeUI: {
                 loadImage: {
-                    path: a,
+                    path: imageSrc,
                     name: 'dkfl',
                 },
                 menuBarPosition: 'bottom',
@@ -100,7 +119,20 @@ const Makebanner = () => {
             },
         });
         setEditorInstance(instance);
-    }, []);
+    };
+
+
+
+    useEffect(() => {
+
+        if (Object.keys(imageData).length === 0) {
+            return;
+        }
+        loadImageCallback();
+        setImagesLoaded(true);
+
+
+    }, [imageData,imageSrc]);
 
     const handleSave = (event) => {
         event.preventDefault(); // 기본 동작 방지
@@ -110,9 +142,6 @@ const Makebanner = () => {
                 const imageData = editorInstance.toDataURL();
                 dowmloadImage(imageData);
                 sendImageToServer(imageData);
-
-            } else {
-                console.error("에디터 인스턴스를 찾을 수 없습니다.");
             }
         } catch (error) {
             console.error('배너 데이터를 제출하는 중 에러 발생:', error);
@@ -120,9 +149,9 @@ const Makebanner = () => {
     };
     const dowmloadImage =(base64Image) => {
         const link = document.createElement('a')
-        const resultPath = String(im)
-        link.href = base64Image;
-        link.download = `${im}`;
+        const resultPath = String(imageSrc).replace('\\result\\', '')
+        link.href = base64Image; //
+        link.download = resultPath;
         link.setAttribute('target', '_blank');
         link.setAttribute('download', resultPath);
 
@@ -131,14 +160,19 @@ const Makebanner = () => {
         document.body.removeChild(link);
     }
 
+    const handleImageLoad = () => {
+        setImagesLoaded(true);
+    }
+
     return(
         <body>
+            {!imagesLoaded && <div>Loading...</div>}
         <header>
-            <div class="banner-header">
+            <div className="banner-header">
 
-                <h2 class="banner-title" onClick={GoMain}>MAKEBANNER</h2>
+                <h2 className="banner-title" onClick={GoMain}>MAKEBANNER</h2>
 
-                <div class="charts-see-all">
+                <div className="charts-see-all">
                     <a className="go-login" onClick={GoLogout}>
                         로그아웃
                     </a>
@@ -150,7 +184,7 @@ const Makebanner = () => {
                     {/*    회원가입*/}
                     {/*</a>*/}
 
-                    <button class="go-start">
+                    <button className="go-start">
                         <a className="go-go" onClick={GoSetting}>
                             시작하기
                         </a>
@@ -162,7 +196,8 @@ const Makebanner = () => {
         </header>
 
         <section>
-            <div class="make-banner-container">
+            <div className="make-banner-container">
+                <p className="login-title" > {text} {autoText}</p>
                 {/* <Editor
                     initialValue="hello react editor world!"
                     previewStyle="vertical"
@@ -174,17 +209,33 @@ const Makebanner = () => {
                      ref={editorRef}
                      hooks={{
                          addImageBlobHook: onUploadImage
-                     }}
-                    // initialValue={initContents}
-                    // onChange={(e) => setUsermake(e.target.value)}
-                >
+                          }}
+                         // initialValue={initContents}
+                         // onChange={(e) => setUsermake(e.target.value)}
+                     >
                 </div>
-                <button class="login-but"
+                <button className="login-but"
                     onClick={handleSave}>결과 보기</button>
+
+                <div className="img-list">
+
+                    <ul>
+                        {Object.keys(imageData).map((key, index) => (
+                                <li>
+                                    <div className="result-image">
+
+                                        <img className="img-zip" src={imageData[key]} loading="lazy" onLoad={handleImageLoad} onClick={e => handleClick(imageData[key], {key})}/>
+
+                                    </div>
+
+                                </li>
+                        ))}
+                    </ul>
+
+                </div>
+
+
             </div>
-
-
-
 
 
         </section>

@@ -81,7 +81,7 @@ label {
     margin: 16px 0 8px;
 }
 
-input {
+.input {
     border: none;
     background-color: #F7F6F9;
     border-radius: 5px;

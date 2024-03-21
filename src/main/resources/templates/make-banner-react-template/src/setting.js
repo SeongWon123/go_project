@@ -18,8 +18,6 @@ const Makebanner = () => {
 
 
 
-
-
     useEffect(() => {
         if (sessionSearch === null) {
             alert("로그인을 해야합니다")
@@ -37,9 +35,7 @@ const Makebanner = () => {
     const GoMyPage = () => {
         navigate("/mypage");
     }
-    // const GoSignup = () => {
-    //   navigate("/signup");
-    // }
+
     const GoSetting = () =>{
         navigate("/setting")
     }
@@ -59,10 +55,14 @@ const Makebanner = () => {
             setBannerText(""); // 직접 입력값 초기화
         }
     }
+    async function delay(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+    }
 
     const handleBannerSubmit = async (event) => {
         event.preventDefault(); // 페이지 리로딩 방지
         try {
+
             // 서버로 보낼 데이터를 객체로 만듦
             const data = {
                 subject: bannerSubject,
@@ -73,45 +73,67 @@ const Makebanner = () => {
                 userid : sessionSearch
             };
 
-            console.log(data)
+            const response = await axios.post('/api/makebanner', data)
 
-            // POST 요청을 보내고 응답 받기
-            const response = await axios.post('/api/makebanner', data);
-            const res = response.data
-            console.log(res)
+            console.log("hello")
+            await delay(35000)
 
-            // 응답 데이터 출력
-            console.log(response.data);
-            setTimeout(() => {
-                console.log("Delayed for 1 second.");
+            navigate('/editorpage', {
+                state: {
+                    response: response.data,
+                    prompt: bannerSubject,
+                    text: bannerText,
+                    autotext: bannerautoText
+                }
+            });
+            console.log("hi")
 
-                navigate('/makebanner', {state : {path: res, prompt : bannerSubject }});
-            }, 5000)
-            // navigate('/makebanner', {state : res});
+
+            // await axios.post('/api/makebanner', data)
+            //     .then(async response => {
+            //
+            //         await delay(3000)
+            //
+            //         navigate('/editorpage', {
+            //             state: {
+            //                 response: response.data,
+            //                 prompt: bannerSubject,
+            //                 text: bannerText,
+            //                 autotext: bannerautoText
+            //             }
+            //         });
+            //         console.log("hi")
+            //
+            // })
+
+
+
+
         } catch (error) {
             console.error('Error submitting banner data:', error);
         }
+
     }
 
     // JSX를 반환하여 화면을 구성합니다.
     return (
         <body>
         <header>
-            <div class="banner-header">
+            <div className="banner-header">
 
                 <h2 className="banner-title" onClick={GoMain}>MAKEBANNER</h2>
-                <div class="charts-see-all">
+                <div className="charts-see-all">
 
-                    <a class="go-login" onClick={GoLogout}>
+                    <a className="go-login" onClick={GoLogout}>
                         로그아웃
                     </a>
 
-                    <a class="go-login" onClick={GoMyPage}>
+                    <a className="go-login" onClick={GoMyPage}>
                         마이페이지
                     </a>
 
-                    <button class="go-start">
-                        <a class="go-go" onClick={GoSetting}>
+                    <button className="go-start">
+                        <a className="go-go" onClick={GoSetting}>
                             시작하기
                         </a>
                     </button>
@@ -122,10 +144,10 @@ const Makebanner = () => {
         </header>
 
         <section>
-            <div class="container">
-                <form class="login" onSubmit={handleBannerSubmit}>
-                    <h1 class="login-title">배너 제작 설정</h1>
-                    <label class="la-t">광고 주제</label>
+            <div className="container">
+                <form className="login" onSubmit={handleBannerSubmit}>
+                    <h1 className="login-title">배너 제작 설정</h1>
+                    <label className="la-t">광고 주제</label>
                     <input className="in-t"
                            name="subject"
                            type="text"
@@ -133,7 +155,7 @@ const Makebanner = () => {
                            onChange={(e) => setBannerSubject(e.target.value)}
                            placeholder="배너 주제를 입력하세요."
                     />
-                    <label class="la-t">배너 크기</label>
+                    <label className="la-t">배너 크기</label>
                     {/*<input class="in-t"*/}
                     {/*       name="size"*/}
                     {/*       type="text"*/}
@@ -159,10 +181,10 @@ const Makebanner = () => {
                     </div>
 
 
-                    <label class="la-t">배너 문구</label>
+                    <label className="la-t">배너 문구</label>
                     <div className="check_wrap">
                         <input type="checkbox" id="check_btn1" checked={isDirectInput} onChange={handleDirectInputChange}/>
-                        <label for="check_btn1"><span>문구 직접입력</span></label>
+                        <label htmlFor="check_btn1"><span>문구 직접입력</span></label>
                     </div>
                     {isDirectInput && (
                         <input className="in-t"
@@ -176,7 +198,7 @@ const Makebanner = () => {
 
                     <div className="check_wrap">
                         <input type="checkbox" id="check_btn2" checked={isAutoInput} onChange={handleAutoInputChange}/>
-                        <label for="check_btn2"><span>문구 추천받기</span></label>
+                        <label htmlFor="check_btn2"><span>문구 추천받기</span></label>
                     </div>
                     {isAutoInput && (
                         <div className="check">
@@ -193,7 +215,7 @@ const Makebanner = () => {
 
 
 
-                    <button class="login-but" type='submit' onClick={handleBannerSubmit}>결과 보기</button>
+                    <button className="login-but" type='submit' onClick={handleBannerSubmit}>결과 보기</button>
                 </form>
             </div>
         </section>

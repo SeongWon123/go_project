@@ -11,4 +11,6 @@ public class GetBannerImage {
     private String filename;
 
     private String prompt;
+
+    private String seed;
 }

@@ -18,7 +18,7 @@ export default function App() {
             <Route path={"/setting"} element={<Setting />}></Route>
             <Route path={"/mypage"} element={<Mypage />}></Route>
             <Route path={"/signup"} element={<Signup />}></Route>
-            <Route path={"/makebanner"} element={<Makebanner/>}></Route>
+            <Route path={"/editorpage"} element={<Makebanner/>}></Route>
             <Route path={"/resultbanner"} element={<Resultbanner/>}></Route>
             <Route path={"/main"} element={<Main/>}></Route>
           </Routes>
