@@ -1,5 +1,6 @@
 package hello.group.controller;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import hello.group.dto.*;
 import hello.group.service.MakeImageService;
@@ -8,14 +9,17 @@ import jakarta.persistence.EntityManager;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Map;
-
+import java.util.*;
+import java.util.List;
 @RestController
 @RequestMapping("/api")
 @RequiredArgsConstructor
@@ -77,7 +81,7 @@ public class Controller {
 
     @CrossOrigin(origins = "http://localhost:3000", allowedHeaders = "*", allowCredentials = "true")
     @PostMapping("/makebanner")
-    public ResponseEntity<String> makeBanner(@RequestBody Map<String, String> bannerInfo) {
+    public String makeBanner(@RequestBody Map<String, String> bannerInfo) {
 
         // 클라이언트로부터 받은 배너 설정 정보 처리
         String subject = bannerInfo.get("subject");
@@ -89,51 +93,49 @@ public class Controller {
         String autoText = bannerInfo.get("autotext");
         String userId = bannerInfo.get("userid");
 
-        // 예시로 받은 배너 설정 정보를 콘솔에 출력
-        System.out.println("Subject: " + subject);
-        System.out.println("widthSize: " + widthsize);
-        System.out.println("heightSize: " + heightsize);
-        System.out.println("Text: " + text);
-        System.out.println("Auto Text: " + autoText);
-        System.out.println("userId: " + userId);
 
         // 쿼리로 보내기 위해선 공백을 없애야함 그래서 replace를 활용해 공백을 어떠한 문자로 치환
         String replaceText = subject.replaceAll(" ", "/");
         System.out.println(replaceText);
 
-        String image = makeImageService.getImage(replaceText, userId, subject, w, h);
-        System.out.println(image);
+        List<String> lis = new ArrayList<>();
+        Map<String, String> image = makeImageService.getImage(replaceText, userId, subject, w, h);
 
+        ObjectMapper objectMapper = new ObjectMapper();
 
-        return ResponseEntity.ok(image);
+        // Map을 JSON 문자열로 변환
+        String jsonString1 = null;
+        try {
+            jsonString1 = objectMapper.writeValueAsString(image);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        System.out.println("반환" + jsonString1);
 
-
+        return jsonString1;
     }
+
     @PostMapping("/editorPage")
-    public ResponseEntity<String> handleBannerData(@RequestBody GetBannerImage getBannerImage) {
+    public String handleBannerData(@RequestBody GetBannerImage getBannerImage) {
         // 받은 이미지 데이터 처리
         String image = getBannerImage.getFilename();
         String userId = getBannerImage.getUserId();
         String prompt = getBannerImage.getPrompt();
-        System.out.println("이미지를 받아왔습니다: " + image);
-        System.out.println("이미지를 받아왔습니다: " + userId);
-        System.out.println("이미지를 받아왔습니다: " + prompt);
+        String seed = getBannerImage.getSeed();
 
-        String s = makeImageService.saveImg(userId, image, prompt);
-        System.out.println(s);
+        String replaceText = image.replaceAll("\\\\result\\\\", "");
 
-        //String a = s.replaceAll("\\\\", "/");
+        String s = makeImageService.saveImg(userId, replaceText, prompt, seed);
+
 
 
         System.out.println("=================================");
-
-        //Map<List<String>, List<String>> byId = userInfoService.findById2(userId);
-        //String string = byId.toString();
+        System.out.println(image);
 
 
         // 간단한 응답 생성
         String responseMessage = "이미지 데이터를 성공적으로 받았습니다.";
-        return ResponseEntity.ok(image);
+        return s;
 
     }
 
@@ -152,7 +154,8 @@ public class Controller {
     public String userInfo (@RequestBody Hello getBannerImage){
 
         String userId = getBannerImage.getUserId();
-        Map<String, String> byId = userInfoService.findById2(userId);
+
+        Map<String, List<String>> byId = userInfoService.findById2(userId);
 
         ObjectMapper objectMapper = new ObjectMapper();
 
@@ -165,8 +168,77 @@ public class Controller {
         }
         System.out.println(jsonString.toString());
 
+
         return jsonString;
     }
+
+    @CrossOrigin(origins = "http://localhost:3000", allowedHeaders = "*", allowCredentials = "true")
+    @PostMapping("/myPage2")
+    public HelloUserinfo userInfo2 (@RequestBody Hello getBannerImage){
+
+        String userId = getBannerImage.getUserId();
+        HelloUserinfo byId1 = userInfoService.a(userId);
+        return byId1;
+    }
+
+    @CrossOrigin(origins = "http://localhost:3000", allowedHeaders = "*", allowCredentials = "true")
+    @PostMapping("/trueOrFalse")
+    public String trueOrFalse(@RequestBody Map<String, String> a){
+
+        System.out.println("호출");
+        System.out.println("받아왔나?" + a);
+
+        Iterator<String> iterator = a.keySet().iterator();
+        String please = "C:\\git\\group\\src\\main\\resources\\templates\\make-banner-react-template\\public\\result\\";
+        while(iterator.hasNext()){
+            String please1 = "";
+            String key = iterator.next();
+            please1 = please + key;
+            boolean exists = Files.exists(Paths.get(please1));
+            if (exists){
+                break;
+            }
+        }
+
+        return "ok";
+
+
+    }
+
+//    @PostMapping("hi")
+//    public String aaa(@RequestBody String m){
+//
+//        Map<String, String> resultMap = new LinkedHashMap<>();
+//        List<String> lis = new ArrayList<>();
+//        ObjectMapper mapper = new ObjectMapper();
+//
+//        try {
+//            resultMap = mapper.readValue(m, new TypeReference<Map<String, String>>(){});
+//        } catch (JsonProcessingException e) {
+//            e.printStackTrace();
+//        }
+//
+//        for (String imagePath : resultMap.values()) {
+//            // 이미지 파일의 절대 경로를 생성합니다. (여기서는 상대 경로로 가정하고 있습니다.)
+//            String absolutePath = "C:\\git\\group\\src\\main\\resources\\templates\\make-banner-react-template\\public" + imagePath; // 이미지 디렉토리 경로를 적절히 수정해야 합니다.
+//            lis.add(absolutePath);
+//
+//            // 파일의 존재 여부를 확인합니다.
+//            if (Files.exists(Paths.get(absolutePath))) {
+//                System.out.println("이미지 파일이 존재합니다: " + absolutePath);
+//            } else {
+//                System.out.println("이미지 파일이 존재하지 않습니다: " + absolutePath);
+//            }
+//        }
+//
+//        makeImageService.aa(lis);
+//
+//        return "success";
+//
+//        // JSON 문자열을 Map<String, String> 객체로 변환합니다.
+//
+//
+//    }
 
 }
 

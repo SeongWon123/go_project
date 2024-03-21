@@ -9,6 +9,9 @@ const Mypage = () => {
     const sessionSearch = sessionStorage.getItem("userid");
     const [jsonData, setUserData] = useState({});
 
+    const [userData, setUser] = useState({});
+
+
 
 
     useEffect(() => {
@@ -26,8 +29,15 @@ const Mypage = () => {
                 };
 
                 const response = await axios.post('/api/myPage', data);
-
+                const response2 = await axios.post('/api/myPage2', data);
+                setUser(response2.data)
                 setUserData(response.data)
+                console.log(response2.data)
+                console.log(response.data)
+
+                setTimeout(() => {
+                    console.log("Delayed for 1 second.");
+                }, 3000)
 
 
             } catch (error) {
@@ -37,6 +47,7 @@ const Mypage = () => {
 
         fetchData();
     }, [sessionSearch, navigate]);
+
 
     const GoLogin = () => {
         navigate("/login");
@@ -76,14 +87,23 @@ const Mypage = () => {
             <div className="container">
                 <div className="mypage-t">MY PAGE</div>
                 <div className="img-con"></div>
-                <div className="id">id_@</div>
-                <div className="box"><div className="box-t">이름</div></div>
+                {/*<div className="id">id_@</div>*/}
+                <div className="box">
+                    <div className="box-t">이름</div>
+                    <div className="con">{userData.username}</div>
+                </div>
                 <div className="box">
                     <div className="box-t">아이디</div>
-                    <div className="con">id_@</div>
+                    <div className="con">{userData.userid}</div>
                 </div>
-                <div className="box"><div className="box-t">비밀번호</div></div>
-                <div className="box"><div className="box-t">사업자등록번</div></div>
+                <div className="box">
+                    <div className="box-t">비밀번호</div>
+                    <div className="con">{userData.userpassword}</div>
+                </div>
+                <div className="box">
+                    <div className="box-t">사업자등록번</div>
+                    <div className="con">{userData.userCRN}</div>
+                </div>
                 <div className="box"><div className="box-t">쿠폰</div></div>
                 <div className="but-box">
                     <button className="fix-but">회원정보수정</button>
@@ -95,16 +115,19 @@ const Mypage = () => {
                     <div className="list-box">
 
                         <ul>
-                            {Object.keys(jsonData).map((key, index) => (
-                                <li key={index}>
-                                    <div className="list-name">
+                            {Object.keys(jsonData).map((key) => (
+                                <li key={key}>
+                                    <div className="list-name" >
                                         {key}
                                     </div>
-                                    <div className="list-img">
-                                        <div className="ban-box">
-                                            <img className="result-image" src={jsonData[key]} />
-                                        </div>
+                                    {jsonData[key].map((imgSrc, index) => (
+                                        <div className="list-img">
+                                            <div key={index} className="ban-box">
+                                                <img className="result-image" src={imgSrc} alt={`Image ${index}`}
+                                                     style={{ width: '100%', height: '100%', objectFit: 'contain', borderRadius: '5px' }}/>
+                                            </div>
                                     </div>
+                                    ))}
                                 </li>
                             ))}
                         </ul>

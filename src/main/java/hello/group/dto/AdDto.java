@@ -11,29 +11,32 @@ import java.util.List;
 @ToString
 public class AdDto {
 
-    private Long createId;
+    private Long id;
 
-    private String createAd;
+    private String imagePath;
 
     private String prompt;
+
+    private String seed;
 
 
     public AdDto(){
 
     }
 
-    public AdDto(String createAd){
-        this.createAd = createAd;
+    public AdDto(String imagePath){
+        this.imagePath = imagePath;
     }
 
-    public AdDto(Long createId, String createAd, String prompt){
-        this.createId = createId;
-        this.createAd = createAd;
+    public AdDto(Long id, String createAd, String prompt, String seed){
+        this.id = id;
+        this.imagePath = createAd;
         this.prompt = prompt;
+        this.seed = seed;
     }
 
 
     public Ad toEntity(){
-        return new Ad(null, createAd, prompt);
+        return new Ad(null, imagePath, prompt,seed);
     }
 }
