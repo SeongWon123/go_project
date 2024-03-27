@@ -67,14 +67,15 @@ header {
 }
 
 .container{
-    width: 600px;
-    padding: 60px;
+    width: 60%;
+    padding: 80px;
     margin: 130px auto 20px;
     background-color: white;
     border-radius: 3px;
     box-shadow: 2px 1px 10px 1px rgba(0,0,0,0.1);
     display: flex;
     justify-content: center;
+    justify-items: center;
     flex-direction: column;
 }
 
@@ -107,26 +108,38 @@ img{
     border: none;
     background-color: #F7F6F9;
     display: flex;
+    justify-content: flex-start;
     box-shadow: 2px 1px 10px 1px rgba(0,0,0,0.1);
     margin: 10px;
-    height: 45px;
+    height: 50px;
     border-radius: 5px;
+    width: 100%;
 }
 
 .box-t{
     float: left;
     margin: 20px;
     line-height: 10px;
-    font-size: 15px;
+    font-size: 17px;
     color: #4e4e4e;
 }
 
 .con{
-    float: left;
-    line-height: 10px;
     margin: 20px;
+    line-height: 10px;
     font-size: 15px;
+    color: #4e4e4e;
+}
+
+input{
+    border: none;
+    line-height: 20px;
+    margin: auto ;
+    font-size: 13px;
     color: #000000;
+    height: 90%;
+    width: 70%;
+    background-color: #F7F6F9;
 
 }
 
@@ -137,50 +150,21 @@ img{
     color: white;
     border-radius: 5px;
     border: none;
-    font-size: 15px;
+    font-size: 13px;
     height: 40px;
-    width: 170px;
+    width: 130px;
     margin: 25px auto;
 }
 
-.use-con{
-
-}
-
-.use-title{
-    color: #4e4e4e;
-}
-
-.list-box{
-    border-color: lightgray;
-    border-style: solid;
-    border-width: 2px;
-    margin: 10px 10px;
+.edit-but{
+    text-align: center;
+    background-color: #7C00FF;
+    color: white;
     border-radius: 5px;
-    padding: 10px 20px;
-}
-
-.list-name{
-    margin:10px;
-    color: #4e4e4e;
-    font-size: 17px;
-}
-
-.list-img{
-    display: flex;
-    border-top-style:solid;
-    border-top-color: lightgray;
-    border-width: 2px;
-    padding: 10px 0px;
-}
-
-.ban-box{
     border: none;
-    background-color: #F7F6F9;
-    display: flex;box-shadow: 2px 1px 10px 1px rgba(0,0,0,0.1);
-    margin: 10px;
-    width: 100%;
-    height: 60px;
-    border-radius: 5px;
+    font-size: 12px;
+    height: 30px;
+    width: 130px;
+    margin: auto 5px auto auto;
 
 }
