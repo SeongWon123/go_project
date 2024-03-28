@@ -1,0 +1,213 @@
+* {
+    box-sizing: border-box;
+}
+
+html {
+    word-break: keep-all;
+    font-family: Pretendard, sans-serif;
+    font-size: 16px;
+    line-height: 19px;
+}
+
+body {
+    background-color: #F7F6F9;
+    color: #000000;
+    margin: 0;
+}
+header {
+    height: 80px;
+    padding: 16px;
+    background-color: #FFFFFF;
+    font-weight: 700;
+    box-shadow: 0 4px 4px 1px rgba(0,0,0,0.1);
+    position: fixed;
+    top: 0;
+    width: 100%;
+}
+
+.banner-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 10px 0;
+}
+
+.banner-title {
+    margin: auto 80px;
+    color: #7C00FF;
+    font-weight: bold;
+}
+
+.charts-see-all {
+    margin: auto 30px;
+}
+
+.go-login{
+    display: inline-block;
+    margin: auto 20px;
+    font-size: 16px;
+    font-weight: normal;
+    text-decoration: none;
+    color: black;
+}
+.go-start{
+    background-color: #7C00FF;
+    border-radius: 5px;
+    border: none;
+    padding: 10px;
+    margin:auto 15px;
+}
+.go-go{
+    display: inline-block;
+    margin: auto 5px;
+    font-size: 16px;
+    font-weight: normal;
+    text-decoration: none;
+    color: #FFFFFF;
+}
+
+.container{
+    width: 60%;
+    padding: 80px;
+    margin: 130px auto 20px;
+    background-color: white;
+    border-radius: 3px;
+    box-shadow: 2px 1px 10px 1px rgba(0,0,0,0.1);
+    display: flex;
+    justify-content: center;
+    justify-items: center;
+    flex-direction: column;
+}
+
+.mypage-t{
+    font-size: 30px;
+    margin: 20px auto;
+    color: #7C00FF;
+    font-weight: bold;
+
+}
+
+.img-con{
+    display: flex;
+    justify-content: center;
+
+}
+img{
+    width: 120px;
+    height: 120px;
+    object-fit: contain;
+}
+.id{
+    display: flex;
+    justify-content: center;
+    margin: 20px auto;
+    font-size: 30px;
+
+}
+.box{
+    border: none;
+    background-color: #F7F6F9;
+    display: flex;
+    justify-content: flex-start;
+    box-shadow: 2px 1px 10px 1px rgba(0,0,0,0.1);
+    margin: 10px;
+    height: 50px;
+    border-radius: 5px;
+    width: 100%;
+}
+
+.box-t{
+    float: left;
+    margin: 20px;
+    line-height: 10px;
+    font-size: 17px;
+    color: #4e4e4e;
+}
+
+.con{
+    margin: 20px;
+    line-height: 10px;
+    font-size: 15px;
+    color: #4e4e4e;
+}
+
+input{
+    border: none;
+    line-height: 20px;
+    margin: auto ;
+    font-size: 13px;
+    color: #000000;
+    height: 90%;
+    width: 70%;
+    background-color: #F7F6F9;
+
+}
+
+.fix-but{
+    float: right;
+    text-align: center;
+    background-color: #7C00FF;
+    color: white;
+    border-radius: 5px;
+    border: none;
+    font-size: 13px;
+    height: 40px;
+    width: 130px;
+    margin: 25px auto;
+}
+
+.edit-but{
+    text-align: center;
+    background-color: #7C00FF;
+    color: white;
+    border-radius: 5px;
+    border: none;
+    font-size: 12px;
+    height: 30px;
+    width: 130px;
+    margin: auto 5px auto auto;
+
+}
+/*chat gpt 활용*/
+
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* 투명한 검은 배경 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+.modal-content p {
+    margin-bottom: 10px;
+}
+
+.modal-content div {
+    display: flex;
+    justify-content: center;
+}
+
+.modal-content button {
+    margin: 0 10px;
+    padding: 8px 16px;
+    border: none;
+    background-color: #007bff;
+    color: white;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.modal-content button:hover {
+    background-color: #0056b3;
+}
