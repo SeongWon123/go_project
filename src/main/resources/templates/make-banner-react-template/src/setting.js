@@ -7,7 +7,7 @@ import './static/css/setting.css';
 
 const Makebanner = () => {
     const navigate = useNavigate ();
-    const sessionSearch = sessionStorage.getItem("userid");
+    const sessionSearch = sessionStorage.getItem("userId");
     const [bannerSubject, setBannerSubject] = useState("");
     const [bannerwidthSize, setwidthSize] = useState("");
     const [bannerheightSize, setheightSize] = useState("");
@@ -29,7 +29,7 @@ const Makebanner = () => {
         navigate("/main");
     }
     const GoLogout = () => {
-        sessionStorage.removeItem("userid");
+        sessionStorage.removeItem("userId");
         navigate("/login");
     }
     const GoMyPage = () => {
@@ -66,48 +66,27 @@ const Makebanner = () => {
             // 서버로 보낼 데이터를 객체로 만듦
             const data = {
                 subject: bannerSubject,
-                widthsize: bannerwidthSize,
-                heightsize: bannerheightSize,
+                width: bannerwidthSize,
+                height: bannerheightSize,
                 text: isDirectInput ? bannerText : "", // 직접 입력이면 bannerText, 추천문구이면 bannerautoText
-                autotext: isAutoInput ? bannerautoText : '',
-                userid : sessionSearch
+                autoText: isAutoInput ? bannerautoText : '',
+                userId: sessionSearch
             };
 
             const response = await axios.post('/api/makebanner', data)
 
-            console.log("hello")
-            await delay(35000)
+            console.log("delay");
 
             navigate('/editorpage', {
                 state: {
                     response: response.data,
                     prompt: bannerSubject,
                     text: bannerText,
-                    autotext: bannerautoText
+                    autotext: bannerautoText,
+                    width: bannerwidthSize,
+                    height: bannerheightSize
                 }
             });
-            console.log("hi")
-
-
-            // await axios.post('/api/makebanner', data)
-            //     .then(async response => {
-            //
-            //         await delay(3000)
-            //
-            //         navigate('/editorpage', {
-            //             state: {
-            //                 response: response.data,
-            //                 prompt: bannerSubject,
-            //                 text: bannerText,
-            //                 autotext: bannerautoText
-            //             }
-            //         });
-            //         console.log("hi")
-            //
-            // })
-
-
-
 
         } catch (error) {
             console.error('Error submitting banner data:', error);

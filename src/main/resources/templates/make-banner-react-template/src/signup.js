@@ -15,7 +15,7 @@ const Signup = () => {
     const GoSetting = () =>{
         navigate("/setting");
     }
-    const sessionSearch = sessionStorage.getItem("userid");
+    const sessionSearch = sessionStorage.getItem("userId");
     useEffect(() => {
         if (sessionSearch) { // sessionSearch가 존재한다면
             alert("이미 로그인되어 있습니다"); // 이미 로그인되어 있다는 알림을 띄웁니다
@@ -23,22 +23,22 @@ const Signup = () => {
         }
     }, []); // 의존성 배열 비워짐
 
-    const [username, setUserName] = useState('');
-    const [userid, setUserId] = useState('');
-    const [userpassword, setUserPassword] = useState('');
-    const [usercheckPW, setCheckPw] = useState('');
-    const [userCRN, setUserCRN] = useState('');
-    const userInfo = { username, userid, userpassword, userCRN };
+    const [userName, setUserName] = useState('');
+    const [userId, setUserId] = useState('');
+    const [userPassword, setUserPassword] = useState('');
+    const [userCheckPw, setCheckPw] = useState('');
+    const [businessNumber, setUserCRN] = useState('');
+    const userInfo = { userName, userId, userPassword, businessNumber };
     const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]+$/;
 
     const handleSignup = async(event) => {
         event.preventDefault();
-        if (!passwordRegex.test(userpassword)) {
+        if (!passwordRegex.test(userPassword)) {
             alert('비밀번호는 영문, 숫자, 특수문자를 모두 포함해야 합니다.');
             return;
         }
 
-        if (userpassword !== usercheckPW) {
+        if (userPassword !== userCheckPw) {
             alert('비밀번호가 일치하지 않습니다.');
             return;
         }
@@ -47,7 +47,7 @@ const Signup = () => {
             const response = await axios.post('/api/signup', userInfo);
 
             console.log(response.data);// 성공한 경우 서버 응답을 콘솔에 출력
-            if (response.data == 'fail'){
+            if (response.data == '중복된 아이디 입니다.' || response.data == 'fail'){
                 alert("이미 존재하는 아이디입니다.");
                 return;
             }else{

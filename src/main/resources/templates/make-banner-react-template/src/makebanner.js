@@ -11,12 +11,14 @@ const Makebanner = () => {
     const navigate = useNavigate ();
     const [loding, setLoding] = useState(true);
 
-    const sessionSearch = sessionStorage.getItem("userid");
+    const sessionSearch = sessionStorage.getItem("userId");
     const location = useLocation();
     const prompt = location.state?.prompt;
     const text = location.state?.text;
     const autoText = location.state?.autotext;
     const imageData = location.state?.response || {};
+    const width = location.state?.width;
+    const height = location.state?.height;
     const [imageSrc, setImageSrc] = useState();
     const [seed, setSeed] = useState();
     const [imagesLoaded, setImagesLoaded] = useState(false);
@@ -37,7 +39,7 @@ const Makebanner = () => {
     }, [sessionSearch, navigate]);
 
     const GoLogout = () => {
-        sessionStorage.removeItem("userid");
+        sessionStorage.removeItem("userId");
         navigate("/main");
     }
 
@@ -83,7 +85,9 @@ const Makebanner = () => {
                 userId: sessionSearch,
                 prompt: prompt,
                 filename: imageSrc,
-                seed :  seed
+                seed :  seed,
+                width: width,
+                height: height
             };
 
             // 이미지 데이터를 서버로 전송
@@ -121,6 +125,10 @@ const Makebanner = () => {
         setEditorInstance(instance);
     };
 
+    async function delay(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+    }
+
 
 
     useEffect(() => {
@@ -128,6 +136,9 @@ const Makebanner = () => {
         if (Object.keys(imageData).length === 0) {
             return;
         }
+
+
+
         loadImageCallback();
         setImagesLoaded(true);
 

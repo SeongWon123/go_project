@@ -66,8 +66,8 @@ header {
     color: #FFFFFF;
 }
 
-.container{
-    width: 600px;
+.containerrr{
+    width: 60%;
     padding: 60px;
     margin: 130px auto 20px;
     background-color: white;
@@ -108,9 +108,11 @@ img{
     background-color: #F7F6F9;
     display: flex;
     box-shadow: 2px 1px 10px 1px rgba(0,0,0,0.1);
-    margin: 10px;
+    margin: 10px auto;
     height: 45px;
     border-radius: 5px;
+    width: 50%;
+    text-align: center;
 }
 
 .box-t{
@@ -140,7 +142,7 @@ img{
     font-size: 15px;
     height: 40px;
     width: 170px;
-    margin: 25px auto;
+    margin: 25px 230px;
 }
 
 .use-con{
@@ -171,7 +173,7 @@ img{
     border-top-style:solid;
     border-top-color: lightgray;
     border-top: 2px solid lightgray;;
-    padding: 10px 0px;
+    padding: 10px;
 }
 
 .ban-box{
@@ -185,10 +187,10 @@ img{
     overflow: hidden;
 
 }
-.result-image {
+.result-imagee {
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: contain;
     border-radius: 5px;
 
 }
