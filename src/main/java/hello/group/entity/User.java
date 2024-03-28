@@ -1,6 +1,6 @@
 package hello.group.entity;
 
-import hello.group.dto.HelloUserinfo;
+import hello.group.dto.UserInfo;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -19,26 +19,26 @@ public class User {
     @Column(name = "user_num")
     private Long num;
 
-    private String username;
+    private String userName;
 
-    private String userid;
+    private String userId;
 
-    private String userpassword;
+    private String userPassword;
 
-    private String userCRN;
+    private String businessNumber;
 
 //    @NotFound(action = NotFoundAction.IGNORE)
     @OneToMany(mappedBy = "userNum")
     private List<Ad> adList = new ArrayList<>();
 
-    public User(Long num, String username, String userid, String userpassword, String userCRN) {
+    public User(Long num, String userName, String userId, String userPassword, String businessNumber) {
         this.num = num;
-        this.username = username;
-        this.userid = userid;
-        this.userpassword = userpassword;
-        this.userCRN = userCRN;
+        this.userName = userName;
+        this.userId = userId;
+        this.userPassword = userPassword;
+        this.businessNumber = businessNumber;
     }
-    public HelloUserinfo toDto(){
-        return new HelloUserinfo(username, userid, userpassword, userCRN);
+    public UserInfo toDto(){
+        return new UserInfo(userName, userId, userPassword, businessNumber);
     }
 }

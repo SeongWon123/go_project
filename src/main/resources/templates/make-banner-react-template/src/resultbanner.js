@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from "react-router-dom";
 import './static/css/resultbanner.css';
-import axios from "axios";
 import './App.css';
-import base64 from "base-64";
 
 
 // function App() {

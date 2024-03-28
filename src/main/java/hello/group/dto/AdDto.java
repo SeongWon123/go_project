@@ -19,6 +19,10 @@ public class AdDto {
 
     private String seed;
 
+    private String width;
+
+    private String height;
+
 
     public AdDto(){
 
@@ -28,15 +32,17 @@ public class AdDto {
         this.imagePath = imagePath;
     }
 
-    public AdDto(Long id, String createAd, String prompt, String seed){
+    public AdDto(Long id, String createAd, String prompt, String seed, String width, String height){
         this.id = id;
         this.imagePath = createAd;
         this.prompt = prompt;
         this.seed = seed;
+        this.width = width;
+        this.height = height;
     }
 
 
     public Ad toEntity(){
-        return new Ad(null, imagePath, prompt,seed);
+        return new Ad(null, imagePath, prompt,seed, width, height);
     }
 }

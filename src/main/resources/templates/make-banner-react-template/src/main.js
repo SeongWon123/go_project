@@ -10,7 +10,7 @@ const Main = () => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
 
     useEffect(() => {
-        const sessionSearch = sessionStorage.getItem('userid');
+        const sessionSearch = sessionStorage.getItem('userId');
 
         if (sessionSearch !== null) {
             setIsLoggedIn(true);
@@ -31,7 +31,7 @@ const Main = () => {
         navigate("/setting");
     }
     const GoLogout = () => {
-        sessionStorage.removeItem("userid");
+        sessionStorage.removeItem("userId");
         navigate("/login");
     }
     const GoMyPage = () => {

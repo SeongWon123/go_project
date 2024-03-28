@@ -1,25 +1,20 @@
 import React, {useEffect, useState} from 'react';
 import { useNavigate } from "react-router-dom";
-import './static/css/mypage.css';
+import './static/css/mypage.css'
 import axios from "axios";
 
 
 const Mypage = () => {
     const navigate = useNavigate();
-    const sessionSearch = sessionStorage.getItem("userid");
+    const sessionSearch = sessionStorage.getItem("userId");
     const [jsonData, setUserData] = useState({});
-
     const [userData, setUser] = useState({});
-
-
-
 
     useEffect(() => {
         if (sessionSearch === null) {
             alert("로그인을 해야합니다")
             navigate("/login");
         }
-
 
     const fetchData = async () => {
             try {
@@ -48,20 +43,14 @@ const Mypage = () => {
         fetchData();
     }, [sessionSearch, navigate]);
 
-
-    const GoLogin = () => {
-        navigate("/login");
-    }
-    const GoSignup = () => {
-        navigate("/signup");
-    }
     const GoSetting = () => {
         navigate("/setting")
     }
     const GoLogout = () => {
-        sessionStorage.removeItem("userid");
+        sessionStorage.removeItem("userId");
         navigate("/login");
     }
+
     const GoMyPage = () => {
         navigate("/mypage");
     }
@@ -84,25 +73,25 @@ const Mypage = () => {
             </div>
         </header>
         <section>
-            <div className="container">
+            <div className="containerrr">
                 <div className="mypage-t">MY PAGE</div>
                 <div className="img-con"></div>
                 {/*<div className="id">id_@</div>*/}
                 <div className="box">
                     <div className="box-t">이름</div>
-                    <div className="con">{userData.username}</div>
+                    <div className="con">{userData.userName}</div>
                 </div>
                 <div className="box">
                     <div className="box-t">아이디</div>
-                    <div className="con">{userData.userid}</div>
+                    <div className="con">{userData.userId}</div>
                 </div>
                 <div className="box">
                     <div className="box-t">비밀번호</div>
-                    <div className="con">{userData.userpassword}</div>
+                    <div className="con">{userData.userPassword}</div>
                 </div>
                 <div className="box">
-                    <div className="box-t">사업자등록번</div>
-                    <div className="con">{userData.userCRN}</div>
+                    <div className="box-t">사업자등록번호</div>
+                    <div className="con">{userData.businessNumber}</div>
                 </div>
                 <div className="box"><div className="box-t">쿠폰</div></div>
                 <div className="but-box">
@@ -123,10 +112,9 @@ const Mypage = () => {
                                     {jsonData[key].map((imgSrc, index) => (
                                         <div className="list-img">
                                             <div key={index} className="ban-box">
-                                                <img className="result-image" src={imgSrc} alt={`Image ${index}`}
-                                                     style={{ width: '100%', height: '100%', objectFit: 'contain', borderRadius: '5px' }}/>
+                                                <img className="result-imagee" src={imgSrc} alt={`Image ${index}`}/>
                                             </div>
-                                    </div>
+                                        </div>
                                     ))}
                                 </li>
                             ))}

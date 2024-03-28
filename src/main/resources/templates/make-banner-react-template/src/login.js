@@ -5,11 +5,11 @@ import './static/css/login.css';
 
 
 const Login = () =>  {
-    const [userid, setId] = useState('');
-    const [userpassword, setPassword] = useState('');
-    const loginInfo = {userid, userpassword};
+    const [userId, setId] = useState('');
+    const [userPassword, setPassword] = useState('');
+    const loginInfo = {userId, userPassword};
     const navigate = useNavigate();
-    const sessionSearch = sessionStorage.getItem("userid");
+    const sessionSearch = sessionStorage.getItem("userId");
     useEffect(() => {
         if (sessionSearch) { // sessionSearch가 존재한다면
             alert("이미 로그인되어 있습니다"); // 이미 로그인되어 있다는 알림을 띄웁니다
@@ -38,9 +38,9 @@ const Login = () =>  {
                 }
             });
             if (response.data === 'success') {
-                console.log("로그인 성공", userid, userpassword)
+                console.log("로그인 성공", userId, userPassword)
                 console.log(response.data)
-                sessionStorage.setItem('userid', loginInfo.userid);
+                sessionStorage.setItem('userId', loginInfo.userId);
                 alert("로그인성공")
                 navigate("/setting") // 로그인 후 이동할 페이지로 이동합니다.
             } else {

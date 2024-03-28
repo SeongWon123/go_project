@@ -23,18 +23,24 @@ public class Ad {
 
     private String seed;
 
+    private String width;
+
+    private String height;
+
     @ManyToOne
     @JoinColumn(name = "user_num")
     private User userNum;
 
-    public Ad(Long createId, String createAd, String prompt, String seed) {
+    public Ad(Long createId, String createAd, String prompt, String seed, String width, String height) {
         this.id = createId;
         this.imagePath = createAd;
         this.prompt = prompt;
         this.seed = seed;
+        this.width = width;
+        this.height = height;
     }
 
     public AdDto toDto(){
-        return new AdDto(id, imagePath, prompt, seed);
+        return new AdDto(id, imagePath, prompt, seed, width, height);
     }
 }

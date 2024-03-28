@@ -1,13 +1,12 @@
 package hello.group.service;
-
-
 import hello.group.dto.AdList;
-import hello.group.dto.HelloUserinfo;
-
+import hello.group.dto.UserInfo;
+import hello.group.entity.Ad;
 import hello.group.entity.User;
 import hello.group.repository.AdRepository;
-import hello.group.repository.UserInfo;
+import hello.group.repository.UserInfoRepo;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,47 +16,46 @@ import java.util.*;
 public class UserInfoService {
 
     @Autowired
-    private UserInfo userInfo;
+    private UserInfoRepo userInfoRepo;
 
     @Autowired
     private AdRepository adRepo;
 
-    @Autowired
+    @PersistenceContext
     private EntityManager em;
 
     @Transactional
-    public HelloUserinfo save(HelloUserinfo helloUserinfo){
-        // 똑같은 아이디가 있는지 확인
-        Optional<User> byId = userInfo.findById(helloUserinfo.getUserid());
-        System.out.println(byId);
-        //있다면 false 없다면 true
-        boolean empty = byId.isEmpty();
-        System.out.println(empty);
-        //false면 null 리턴
-        if(empty == false){
-            return null;
-        }
+    public UserInfo save(UserInfo userInfo){
         //true면 저장
-        User entity = helloUserinfo.toEntity();
-        System.out.println(entity);
-        em.persist(entity);
-        HelloUserinfo dto = entity.toDto();
+        User entity = userInfo.toEntity();
+        if (entity.getUserId() == null) { //id값이 없으면 영속성 컨텍스트로 저장
+            em.persist(entity);
+        } else { //아니면 준영속
+            em.merge(entity);
+        }
+        UserInfo dto = entity.toDto();
 
         return dto;
     }
 
-    public HelloUserinfo findById(String userid, String userpassword) {
+    public boolean getAllList(UserInfo userInfo){
+        Optional<User> a = userInfoRepo.findById(userInfo.getUserId());
+        System.out.println(a);
+        return a.isEmpty();
+    }
+
+    public UserInfo findById(String userId, String userPassword) {
         //db에서 가져온 데이터와 아이디 비번 일치 확인
-        Optional<User> byId = userInfo.findById(userid);
+        Optional<User> byId = userInfoRepo.findById(userId);
         System.out.println(byId);
-        User user = byId.filter(u -> u.getUserpassword().equals(userpassword)).orElse(null);
+        User user = byId.filter(u -> u.getUserPassword().equals(userPassword)).orElse(null);
         // 일치 하지 않다면 null
         if(user==null){ // 반환된 값이 null이라면 null로 반환
             return null;
         }
         //일치하면 user정보 보내기
         System.out.println(user);
-        HelloUserinfo dto = user.toDto();
+        UserInfo dto = user.toDto();
 
         return dto;
 
@@ -65,9 +63,9 @@ public class UserInfoService {
 
 
     @Transactional
-    public Map<String, List<String>> findById2(String userid) {
+    public Map<String, List<String>> findByImg(String userId) {
         // 이미지 저장시 유저정보 필요
-        Optional<User> byId = userInfo.findById(userid);
+        Optional<User> byId = userInfoRepo.findById(userId);
         User user = byId.get();
         Long Num = user.getNum();
         List<AdList> id = em.createQuery("select new hello.group.dto.AdList(s.prompt, s.imagePath) from Ad s join s.userNum t where t.num=:id", AdList.class)
@@ -95,11 +93,40 @@ public class UserInfoService {
         return resultMap;
     }
 
-    public HelloUserinfo a(String userid){
-        Optional<User> byId = userInfo.findById(userid);
+    @Transactional
+    public void updateUserInfo(UserInfo userInfo){
+        Optional<User> byId = userInfoRepo.findById(userInfo.getUserId());
         User user = byId.get();
-        HelloUserinfo dto = user.toDto();
+        user.setUserName(userInfo.getUserName());
+        user.setUserPassword(userInfo.getUserPassword());
+        user.setBusinessNumber(user.getBusinessNumber());
+
+    }
+
+    @Transactional
+    public UserInfo findByUserInfo(String userId){
+        Optional<User> byId = userInfoRepo.findById(userId);
+        User user = byId.get();
+        UserInfo dto = user.toDto();
         return dto;
+    }
+
+    @Transactional
+    public void deleteUserInfo(String userId){
+        Optional<User> byId = userInfoRepo.findById(userId);
+        User user = byId.get();
+        userInfoRepo.delete(user);
+        em.flush();
+    }
+
+    @Transactional
+    public void deleteUserBanner(String imgPath){
+
+        List<Ad> all = adRepo.findAll();
+        Optional<Ad> deleteInfo = all.stream().filter(s -> s.getImagePath().equals(imgPath)).findFirst();
+        Ad ad = deleteInfo.get();
+        adRepo.delete(ad);
+        em.flush();
     }
 
 }
