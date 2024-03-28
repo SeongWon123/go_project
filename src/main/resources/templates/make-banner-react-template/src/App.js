@@ -7,7 +7,7 @@ import Signup from './signup'
 import Makebanner from "./makebanner";
 import Resultbanner from "./resultbanner";
 import Main from"./main"
-
+import EditInformation from "./editInformation";
 
 export default function App() {
   return (
@@ -21,6 +21,7 @@ export default function App() {
             <Route path={"/editorpage"} element={<Makebanner/>}></Route>
             <Route path={"/resultbanner"} element={<Resultbanner/>}></Route>
             <Route path={"/main"} element={<Main/>}></Route>
+            <Route path={"editInformation"} element={<EditInformation/>}></Route>
           </Routes>
         </BrowserRouter>
       </div>
