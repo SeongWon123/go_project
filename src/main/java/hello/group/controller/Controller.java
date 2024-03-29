@@ -72,8 +72,20 @@ public class Controller {
 
         }
     }
+    @CrossOrigin(origins = "http://localhost:3000", allowedHeaders = "*", allowCredentials = "true")
+    @PostMapping("/update")
+    public void updateUserInfo(@RequestBody UserInfo userInfo){
 
-    @PostMapping("/deleteUserInfo")
+        String userId = userInfo.getUserId();
+        String userName = userInfo.getUserName();
+        String userPassword = userInfo.getUserPassword();
+        String businessNumber = userInfo.getBusinessNumber();
+        System.out.println(" ==>" + userId + "==" + userPassword + "==" + userName + "==" + businessNumber);
+        userInfoService.updateUserInfo(userInfo);
+
+    }
+
+    @PostMapping("/delete")
     public void deleteUserInfo(){
 
     }
@@ -181,6 +193,7 @@ public class Controller {
         return byId;
 
     }
+
 
     @PostMapping("/deleteBanner")
     public void deleteBanner(){

@@ -96,10 +96,12 @@ public class UserInfoService {
     @Transactional
     public void updateUserInfo(UserInfo userInfo){
         Optional<User> byId = userInfoRepo.findById(userInfo.getUserId());
+        System.out.println("========" + byId);
         User user = byId.get();
+        user.setUserId(userInfo.getUserId());
         user.setUserName(userInfo.getUserName());
         user.setUserPassword(userInfo.getUserPassword());
-        user.setBusinessNumber(user.getBusinessNumber());
+        user.setBusinessNumber(userInfo.getBusinessNumber());
 
     }
 

@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from "react-router-dom";
+import {useLocation, useNavigate} from "react-router-dom";
 import './static/css/editInformation.css';
 import axios from "axios";
 
 const EditInformation = () => {
     const navigate = useNavigate();
-    const sessionSearch = sessionStorage.getItem("userid");
+    const location = useLocation();
+    const userInfo = location.state?.data;
+    const sessionSearch = sessionStorage.getItem("userId");
     const [showModal, setShowModal] = useState(false);
 
     const GoMain = () => {
@@ -17,9 +19,9 @@ const EditInformation = () => {
         navigate("/login");
     }
 
-    const [name, setName] = useState("홍길동"); // 이름 상태
-    const [password, setPassword] = useState("123456"); // 비밀번호 상태
-    const [registrationNumber, setRegistrationNumber] = useState("1234596798"); // 사업자등록번호 상태
+    const [name, setName] = useState(userInfo.userName); // 이름 상태
+    const [password, setPassword] = useState(userInfo.userPassword); // 비밀번호 상태
+    const [registrationNumber, setRegistrationNumber] = useState(userInfo.businessNumber); // 사업자등록번호 상태
 
     const [isEditingName, setIsEditingName] = useState(false); // 이름 수정 상태
     const [isEditingPassword, setIsEditingPassword] = useState(false); // 비밀번호 수정 상태
@@ -58,8 +60,25 @@ const EditInformation = () => {
         }
     }
 
-    const handleConfirmation = () => {
+    const handleConfirmation = async (event) => {
         // 여기에 회원 정보 수정 완료 처리 로직을 추가할 수 있습니다.
+        event.preventDefault();
+        try {
+
+            const data = {
+                userId : sessionSearch,
+                userName : name,
+                userPassword : password,
+                businessNumber : registrationNumber,
+            };
+
+            await axios.post('/api/update', data);
+            navigate('/main')
+
+
+        } catch (error) {
+            console.error('API 호출 에러:', error);
+        }
         setShowModal(false); // 모달 닫기
     }
 
@@ -89,7 +108,7 @@ const EditInformation = () => {
                 <div className="img-con">
                     <img src="/image/free-icon-user-2663969.png" alt="user avatar"></img>
                 </div>
-                <div className="id">id_@</div>
+                <div className="id"> {sessionSearch} </div>
 
                 <div className="box">
                     <div className="box-t">이름</div>
@@ -140,6 +159,7 @@ const EditInformation = () => {
                             <p>수정을 다하셨습니까?</p>
                             <div>
                                 <button onClick={handleConfirmation}>확인</button>
+                                {/*onClick={e => handleClick(imageData[key], {key})*/}
                                 <button onClick={() => setShowModal(false)}>취소</button>
                             </div>
                         </div>

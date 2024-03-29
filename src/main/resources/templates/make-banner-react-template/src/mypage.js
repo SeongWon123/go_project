@@ -10,6 +10,7 @@ const Mypage = () => {
     const [jsonData, setUserData] = useState({});
     const [userData, setUser] = useState({});
 
+
     useEffect(() => {
         if (sessionSearch === null) {
             alert("로그인을 해야합니다")
@@ -42,6 +43,12 @@ const Mypage = () => {
 
         fetchData();
     }, [sessionSearch, navigate]);
+
+    const GoEditInformationPage = (event) => {
+        event.preventDefault();
+        navigate('/editInformation', {state : {data :userData}});
+
+    }
 
     const GoSetting = () => {
         navigate("/setting")
@@ -95,7 +102,7 @@ const Mypage = () => {
                 </div>
                 <div className="box"><div className="box-t">쿠폰</div></div>
                 <div className="but-box">
-                    <button className="fix-but">회원정보수정</button>
+                    <button className="fix-but" onClick={GoEditInformationPage}>회원정보수정</button>
                 </div>
 
                 <div className="use-con">
