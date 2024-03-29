@@ -50,6 +50,13 @@ const Mypage = () => {
 
     }
 
+    const deleteUser = async (event) => {
+        event.preventDefault();
+        await axios.post('/api/delete', sessionSearch)
+        navigate('/main');
+
+    }
+
     const GoSetting = () => {
         navigate("/setting")
     }
@@ -102,7 +109,8 @@ const Mypage = () => {
                 </div>
                 <div className="box"><div className="box-t">쿠폰</div></div>
                 <div className="but-box">
-                    <button className="fix-but" onClick={GoEditInformationPage}>회원정보수정</button>
+                    <button className="fix-but1" onClick={GoEditInformationPage}>회원탈퇴</button>
+                    <button className="fix-but1" onClick={GoEditInformationPage}>회원정보수정</button>
                 </div>
 
                 <div className="use-con">

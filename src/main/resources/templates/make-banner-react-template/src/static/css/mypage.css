@@ -132,7 +132,7 @@ img{
 
 }
 
-.fix-but{
+.fix-but1{
     float: right;
     text-align: center;
     background-color: #7C00FF;
@@ -142,7 +142,7 @@ img{
     font-size: 15px;
     height: 40px;
     width: 170px;
-    margin: 25px 230px;
+    margin: 25px 0px 25px 10px;
 }
 
 .use-con{
