@@ -117,7 +117,8 @@ label {
     font-size: 36px;
     font-weight: 700;
     margin: 24px 0;
-    color: #4e4e4e;
+    color: black;
+    /*color: #4e4e4e;*/
     text-align: center;
 }
 

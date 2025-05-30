@@ -85,9 +85,11 @@ public class Controller {
 
     }
 
+    @CrossOrigin(origins = "http://localhost:3000", allowedHeaders = "*", allowCredentials = "true")
     @PostMapping("/delete")
-    public void deleteUserInfo(){
+    public void deleteUserInfo(@RequestBody UserId userId){
 
+        userInfoService.deleteUserInfo(userId.getUserId());
     }
 
     @CrossOrigin(origins = "http://localhost:3000", allowedHeaders = "*", allowCredentials = "true")
@@ -196,8 +198,71 @@ public class Controller {
 
 
     @PostMapping("/deleteBanner")
-    public void deleteBanner(){
+    public String deleteBanner(@RequestBody ImgPath imgPath){
+        String imgPath1 = imgPath.getImgPath();
+        System.out.println("imgpath = " + imgPath1);
+        String s = imgPath1.replaceAll("/", "\\");
+        userInfoService.deleteUserBanner(s);
+        return "ok";
+    }
 
+    @PostMapping("/recycleImg")
+    public String recycleImg(@RequestBody RecycleImg recycleImg){
+
+        String width = recycleImg.getWidth();
+        String height = recycleImg.getHeight();
+        String imgPath = recycleImg.getImgPath();
+        System.out.println(imgPath);
+        String s = imgPath.replaceAll("/", "\\");
+        BannerDto dto = userInfoService.recycleImg(s);
+        System.out.println(dto);
+        String replaceText = dto.getPrompt().replaceAll(" ", "/");
+        ObjectMapper objectMapper = new ObjectMapper();
+        if (width == "2" && height == "2"){
+            Map<String, String> image3 = makeImageService.recycleImg(replaceText, dto.getSeed(), dto.getWidth(), dto.getHeight());
+
+            // Map을 JSON 문자열로 변환
+            String jsonString1 = null;
+            try {
+                jsonString1 = objectMapper.writeValueAsString(image3);
+            } catch (JsonProcessingException e) {
+                e.printStackTrace();
+            }
+            System.out.println("반환" + jsonString1);
+            return jsonString1;
+        }
+        Map<String, String> image2 = makeImageService.recycleImg(replaceText, dto.getSeed(), width, height);
+        String jsonString2 = null;
+        try {
+            jsonString2 = objectMapper.writeValueAsString(image2);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+
+        System.out.println("반환" + jsonString2);
+        System.out.println(width + "====" + height);
+        return jsonString2;
+    }
+
+    @PostMapping("/recommendation")
+    public String forReco(@RequestBody dataForTextRecommendation reco){
+
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        String userId = reco.getUserId();
+        String subject = reco.getSubject().replaceAll(" ", "/");
+
+
+        Map<String, String> text = makeImageService.getText(subject);
+        String jsonString5 = null;
+        try {
+            jsonString5 = objectMapper.writeValueAsString(text);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+
+        System.out.println("반환" + jsonString5);
+        return jsonString5;
     }
 
 }

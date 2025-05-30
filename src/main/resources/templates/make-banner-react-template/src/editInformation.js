@@ -73,7 +73,8 @@ const EditInformation = () => {
             };
 
             await axios.post('/api/update', data);
-            navigate('/main')
+            sessionStorage.removeItem("userId");
+            navigate('/main', {state : {removeSession : "1"}})
 
 
         } catch (error) {
@@ -105,10 +106,10 @@ const EditInformation = () => {
         <section>
             <div className="container">
                 <div className="mypage-t">MY PAGE</div>
-                <div className="img-con">
-                    <img src="/image/free-icon-user-2663969.png" alt="user avatar"></img>
-                </div>
-                <div className="id"> {sessionSearch} </div>
+                {/*<div className="img-con">*/}
+                {/*    <img src="/image/free-icon-user-2663969.png" alt="user avatar"></img>*/}
+                {/*</div>*/}
+                <div className="id">아이디 : {sessionSearch} </div>
 
                 <div className="box">
                     <div className="box-t">이름</div>

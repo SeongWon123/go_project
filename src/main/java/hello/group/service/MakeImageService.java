@@ -1,6 +1,6 @@
 package hello.group.service;
 
-import hello.group.entity.Ad;
+import hello.group.entity.Banner;
 import hello.group.entity.User;
 import hello.group.repository.AdRepository;
 import hello.group.repository.UserInfoRepo;
@@ -85,50 +85,12 @@ public class MakeImageService {
                 byte[] bytes = Base64.decodeBase64(part);
                 // 디코딩된 문자열에 대한 추가 처리 수행
 
-//                BufferedImage originalImage = ImageIO.read(new ByteArrayInputStream(bytes));
-//                BufferedImage resizedImage2 = Scalr.resize(originalImage, Scalr.Method.SPEED, Scalr.Mode.FIT_EXACT, w, h);
-//                String resizedImagePath2 = "C:\\git\\group\\src\\main\\resources\\templates\\make-banner-react-template\\public\\result" + saveTime + k + ".jpg";
-//                File resizedFile2 = new File(resizedImagePath2);
-//                ImageIO.write(resizedImage2, "jpg", resizedFile2);
-
-
                 FileOutputStream fileOutputStream;
                 File file = new File("C:\\git\\group\\src\\main\\resources\\templates\\make-banner-react-template\\public\\result\\" + saveTime + k + ".png");
                 file.createNewFile();
                 fileOutputStream = new FileOutputStream(file);
                 fileOutputStream.write(bytes);
                 fileOutputStream.close();
-
-
-//                Image img = ImageIO.read(file);
-//                Image resizeImg = img.getScaledInstance(w, h, Image.SCALE_FAST);
-//
-//                BufferedImage newImage = new BufferedImage(w, h, BufferedImage.TYPE_INT_RGB);
-//                Graphics g = newImage.getGraphics();
-//                g.drawImage(resizeImg, 0, 0, null);
-//                g.dispose();
-//                File file1 = new File("C:\\git\\group\\src\\main\\resources\\templates\\make-banner-react-template\\public\\result\\" + saveTime + k + ".jpg");
-//                ImageIO.write(newImage, "jpg", file1);
-
-//                BufferedImage originalImage = ImageIO.read(file);
-
-                        // Resize the image
-//                BufferedImage resizedImage = Scalr.resize(originalImage, Scalr.Method.SPEED, Scalr.Mode.FIT_EXACT, w, h);
-//
-//                // Save the resized image
-//                String resizedImagePath = "C:\\git\\group\\src\\main\\resources\\templates\\make-banner-react-template\\public\\hello\\" + saveTime + k + ".jpg";
-//                File resizedFile = new File(resizedImagePath);
-//                ImageIO.write(resizedImage, "jpg", resizedFile);
-
-
-//                Image img1 = ImageIO.read(file1);
-//                Image resizeImg1 = img1.getScaledInstance(100, 100, Image.SCALE_FAST);
-//
-//                BufferedImage newImage1 = new BufferedImage(100, 100, BufferedImage.TYPE_INT_RGB);
-//                Graphics g1 = newImage.getGraphics();
-//                g1.drawImage(resizeImg1, 0, 0, null);
-//                g1.dispose();
-//                ImageIO.write(newImage1, "jpg", new File("C:\\git\\group\\src\\main\\resources\\templates\\make-banner-react-template\\public\\hello\\" + saveTime + k + ".jpg"));
 
                 String resultPath3 = "C:\\git\\group\\src\\main\\resources\\templates\\make-banner-react-template\\public\\result\\" + saveTime + k + ".png";
 
@@ -146,40 +108,7 @@ public class MakeImageService {
 
             for (int r = 0; r < savedFileNames.size(); r++) {
                 li.put(seeds.get(r), savedFileNames.get(r));
-//                li.put(seeds.get(r), "\\result\\" + savedFileNames.get(r));
             }
-
-
-                // 인코딩 -> 디코딩 base64사용
-//            byte[] bytes = org.apache.tomcat.util.codec.binary.Base64.decodeBase64(sb.split(",", 1)[0]);
-//            //저장시 현재 시간 userId + 현재시간.png로 저장
-////            LocalDateTime now = LocalDateTime.now();
-////            String format = now.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-////            String saveTime = format.replaceAll(" ", "").replaceAll("-", "").replaceAll(":", "");
-//
-//            //받아온 이미지 파일 생성 및 저장
-//            FileOutputStream fileOutputStream;
-//            File file = new File("C:\\git\\group\\src\\main\\resources\\templates\\make-banner-react-template\\src\\static\\images\\" + userId + "__" + saveTime + ".png");
-//            file.createNewFile();
-//            fileOutputStream = new FileOutputStream(file);
-//            fileOutputStream.write(bytes);
-//            fileOutputStream.close();
-//            String adToString = file.toString();
-
-//            Image img = ImageIO.read(file);
-//            Image resizeImg = img.getScaledInstance(w, h, Image.SCALE_SMOOTH);
-//
-//            BufferedImage newImage = new BufferedImage(w, h, BufferedImage.TYPE_INT_RGB);
-//            Graphics g = newImage.getGraphics();
-//            g.drawImage(resizeImg, 0, 0, null);
-//            g.dispose();
-//            boolean png = ImageIO.write(newImage, "png", new File("C:\\git\\group\\src\\main\\resources\\templates\\make-banner-react-template\\src\\public\\media\\" + userId + saveTime + ".png"));
-//
-//            if(png == true){
-//                li.add(userId + saveTime + ".png");
-//                System.out.println(file);
-//            }
-
 
         }catch(MalformedURLException e){
             e.printStackTrace();
@@ -194,11 +123,10 @@ public class MakeImageService {
     public String saveImg(String userId, String image, String prompt, String seed, String width, String height){
 
         String filePath = null;
-
         boolean a = true;
         String resultPath = "C:\\git\\group\\src\\main\\resources\\templates\\make-banner-react-template\\public\\resultbanner\\" + image;
-        System.out.println(resultPath);
         String resultPath2 = "\\resultbanner\\" + image;
+
         while (a){
             try {
 
@@ -223,14 +151,7 @@ public class MakeImageService {
         Optional<User> byId = userInfo.findById(userId);
         User user = byId.get();
 
-//        User user1 = new User();
-//        user1.setNum(user.getNum());
-//        user1.setUserId(user.getUserId());
-//        user1.setUserName(user.getUserName());
-//        user1.setUserPassword(user.getUserPassword());
-//        user1.setBusinessNumber(user.getBusinessNumber());
-
-        Ad b = new Ad();
+        Banner b = new Banner();
         b.setUserNum(user);
         b.setPrompt(prompt);
         b.setImagePath(resultPath2);
@@ -240,6 +161,132 @@ public class MakeImageService {
         adRepo.save(b);
 
         return resultPath2;
+    }
+
+
+    public Map<String, String> recycleImg(String prompt, String seed, String w, String h) {
+
+        String url = "http://127.0.0.1:8000/tospring2" + "?" + "prompt=" + prompt + "&" + "seed=" + seed + "&" + "width=" + w + "&" + "height=" +h;
+        String sb = "";
+
+        Map<String, String> li = new LinkedHashMap<>();
+        List<String> savedFileNames = new ArrayList<>();
+        List<String> images = new ArrayList<>();
+        List<String> seeds = new ArrayList<>();
+
+        // 3000/makebanner
+        try {
+
+            //url 커넥션을 활용하여 데이터 주고 받기
+            HttpURLConnection conn = (HttpURLConnection) new URL(url).openConnection();
+            conn.setRequestProperty("Content-type", "application/json");
+            conn.setDoOutput(true);
+
+            BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
+
+            // 받아온 인코딩으로 된 이미지 String형태로 저장
+            String line = null;
+
+            while ((line = br.readLine()) != null) {
+                sb = sb + line;
+            }
+
+            if (sb.toString().contains("ok")) {
+                System.out.println("test");
+            }
+
+            br.close();
+
+            LocalDateTime now = LocalDateTime.now();
+            String format = now.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+            String saveTime = format.replaceAll(" ", "").replaceAll("-", "").replaceAll(":", "");
+
+            String[] sp = sb.split(",");
+
+            for (int i = 0; i < sp.length; i++) {
+                if (i % 2 == 0) { // 짝수 인덱스는 0을 기준으로 시작하므로 홀수 번째를 나타냄
+                    images.add(sp[i].replaceAll("\\[", ""));
+                } else {
+                    seeds.add(sp[i].replaceAll("]", ""));
+                }
+            }
+
+
+            int k = 0;
+
+            for (String part : images) {
+                byte[] bytes = Base64.decodeBase64(part);
+                // 디코딩된 문자열에 대한 추가 처리 수행
+
+                FileOutputStream fileOutputStream;
+                File file = new File("C:\\git\\group\\src\\main\\resources\\templates\\make-banner-react-template\\public\\result\\" + saveTime + k + ".png");
+                file.createNewFile();
+                fileOutputStream = new FileOutputStream(file);
+                fileOutputStream.write(bytes);
+                fileOutputStream.close();
+
+                String resultPath3 = "C:\\git\\group\\src\\main\\resources\\templates\\make-banner-react-template\\public\\result\\" + saveTime + k + ".png";
+
+                Path path = Paths.get(resultPath3);
+
+                // 파일이 존재하는지 확인
+                boolean exists = Files.exists(path);
+
+                if(exists == true) {
+                    savedFileNames.add("\\result\\" +saveTime + k + ".png");
+
+                }
+                k += 1;
+            }
+
+            for (int r = 0; r < savedFileNames.size(); r++) {
+                li.put(seeds.get(r), savedFileNames.get(r));
+            }
+
+        }catch(MalformedURLException e){
+            e.printStackTrace();
+        } catch(IOException e){
+            e.printStackTrace();
+        }
+        return li;
+    }
+
+    public Map<String, String> getText(String subject) {
+
+        String url = "http://127.0.0.1:8000/tospring3" + "?" + "subject=" + subject;
+        String sb = "";
+
+        Map<String, String> li = new LinkedHashMap<>();
+
+        // 3000/makebanner
+        try {
+
+            //url 커넥션을 활용하여 데이터 주고 받기
+            HttpURLConnection conn = (HttpURLConnection) new URL(url).openConnection();
+            conn.setDoOutput(true);
+
+            BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
+
+            String line = null;
+
+            while ((line = br.readLine()) != null) {
+                sb = sb + line;
+            }
+
+            if (sb.toString().contains("ok")) {
+                System.out.println("test");
+            }
+
+            br.close();
+
+            li.put("recommendation", sb);
+
+        }catch(MalformedURLException e){
+            e.printStackTrace();
+        } catch(IOException e){
+            e.printStackTrace();
+        }
+        return li;
     }
 
 

@@ -29,7 +29,7 @@ public class User {
 
 //    @NotFound(action = NotFoundAction.IGNORE)
     @OneToMany(mappedBy = "userNum")
-    private List<Ad> adList = new ArrayList<>();
+    private List<Banner> bannerList = new ArrayList<>();
 
     public User(Long num, String userName, String userId, String userPassword, String businessNumber) {
         this.num = num;

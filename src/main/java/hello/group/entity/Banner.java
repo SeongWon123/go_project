@@ -1,16 +1,15 @@
 package hello.group.entity;
 
-import hello.group.dto.AdDto;
+import hello.group.dto.BannerDto;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
 
 @Entity
 @Getter @Setter
 @NoArgsConstructor
-public class Ad {
+public class Banner {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,7 +30,7 @@ public class Ad {
     @JoinColumn(name = "user_num")
     private User userNum;
 
-    public Ad(Long createId, String createAd, String prompt, String seed, String width, String height) {
+    public Banner(Long createId, String createAd, String prompt, String seed, String width, String height) {
         this.id = createId;
         this.imagePath = createAd;
         this.prompt = prompt;
@@ -40,7 +39,7 @@ public class Ad {
         this.height = height;
     }
 
-    public AdDto toDto(){
-        return new AdDto(id, imagePath, prompt, seed, width, height);
+    public BannerDto toDto(){
+        return new BannerDto(id, imagePath, prompt, seed, width, height);
     }
 }

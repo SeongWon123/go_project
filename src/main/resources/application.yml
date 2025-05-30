@@ -3,7 +3,7 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/team_project_db?useSSL=false&useUnicode=true&serverTimezone=Asia/Seoul
     username: root
-    password: sje95114232!
+    password: Seam95115603$!@
 
   jpa: #띄어쓰기 2칸
     hibernate: #띄어쓰기 4칸
