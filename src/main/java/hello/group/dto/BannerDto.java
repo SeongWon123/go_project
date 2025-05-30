@@ -1,15 +1,13 @@
 package hello.group.dto;
 
-import hello.group.entity.Ad;
+import hello.group.entity.Banner;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-import java.util.List;
-
 @Getter @Setter
 @ToString
-public class AdDto {
+public class BannerDto {
 
     private Long id;
 
@@ -24,15 +22,15 @@ public class AdDto {
     private String height;
 
 
-    public AdDto(){
+    public BannerDto(){
 
     }
 
-    public AdDto(String imagePath){
+    public BannerDto(String imagePath){
         this.imagePath = imagePath;
     }
 
-    public AdDto(Long id, String createAd, String prompt, String seed, String width, String height){
+    public BannerDto(Long id, String createAd, String prompt, String seed, String width, String height){
         this.id = id;
         this.imagePath = createAd;
         this.prompt = prompt;
@@ -42,7 +40,7 @@ public class AdDto {
     }
 
 
-    public Ad toEntity(){
-        return new Ad(null, imagePath, prompt,seed, width, height);
+    public Banner toEntity(){
+        return new Banner(null, imagePath, prompt,seed, width, height);
     }
 }

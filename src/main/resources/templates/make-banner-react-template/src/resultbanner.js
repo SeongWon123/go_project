@@ -22,7 +22,7 @@ import './App.css';
 const Resultbanner = React.memo(() => {
     const navigate = useNavigate();
     const location = useLocation();
-    const sessionSearch = sessionStorage.getItem("userid");
+    const sessionSearch = sessionStorage.getItem("userId");
     const b = location.state?.path;
     b.replaceAll("\\","/")
     const [adData, setAdData] = useState([]);
@@ -41,7 +41,7 @@ const Resultbanner = React.memo(() => {
     }, [sessionSearch, navigate, b]);
 
     const GoLogout = () => {
-        sessionStorage.removeItem("userid");
+        sessionStorage.removeItem("userId");
         navigate("/login");
     }
     const GoMain = () => {
@@ -92,8 +92,8 @@ const Resultbanner = React.memo(() => {
 
                 <div className="charts-see-all">
 
-                    <a className="go-login" href="#">
-                        로그인
+                    <a className="go-login" onClick={GoLogout}>
+                        로그아웃
                     </a>
 
                     <a className="go-login" href="#">

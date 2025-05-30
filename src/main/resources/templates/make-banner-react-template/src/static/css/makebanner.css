@@ -69,6 +69,7 @@ header {
 
 .make-banner-container{
     width: 1750px;
+    height: 1200px;
     padding: 60px;
     margin: 130px auto 20px;
     background-color: white;
@@ -78,6 +79,43 @@ header {
     justify-content: center;
     flex-direction: column;
 }
+
+.t-title{
+    font-weight: bold;
+    font-size: 30px;
+    margin: 10px 30px 30px;
+    line-height: 1.5;
+}
+
+
+
+
+.tui-image-editor-container .tui-image-editor-controls{
+    box-shadow: 5px 5px 10px 5px rgba(0,0,0,0.4);
+    background-color: white;
+}
+
+
+.tui-image-editor-container {
+    box-shadow: 2px 1px 5px 1px rgba(0,0,0,0.4);
+    border-radius: 3px;
+}
+
+.tui-image-editor-container .tui-image-editor-header {
+    box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.2);
+
+}
+
+.tui-image-editor-container .tui-image-editor-header-buttons button{
+    background-color: #7C00FF !important;
+    border: none !important;
+    box-shadow: 2px 1px 5px 1px rgba(0,0,0,0.4);
+}
+
+.tui-image-editor-container .tui-image-editor-header-buttons div{
+    box-shadow: 2px 1px 5px 1px rgba(0,0,0,0.4);
+}
+
 
 /*.list-box{*/
 /*    border-color: lightgray;*/

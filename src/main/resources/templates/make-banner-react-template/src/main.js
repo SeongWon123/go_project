@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import {useLocation, useNavigate} from "react-router-dom";
 import './static/css/main.css';
 //import React from "react";
 import mainImg1 from "./static/resultImg/main1.jpg"
@@ -7,6 +7,8 @@ import mainImg2 from "./static/resultImg/main2.png"
 import mainImg3 from "./static/resultImg/main3.jpg"
 const Main = () => {
     const navigate = useNavigate();
+    const location = useLocation();
+    const removeSession = location.state?.removeSession;
     const [isLoggedIn, setIsLoggedIn] = useState(false);
 
     useEffect(() => {

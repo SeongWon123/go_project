@@ -14,15 +14,16 @@ const Makebanner = () => {
     const sessionSearch = sessionStorage.getItem("userId");
     const location = useLocation();
     const prompt = location.state?.prompt;
-    const text = location.state?.text;
-    const autoText = location.state?.autotext;
-    const imageData = location.state?.response || {};
+    const text = location.state?.text || '';
+    const autoText = location.state?.bannerauto || '';
+    const imageData = location.state?.response || '';
     const width = location.state?.width;
     const height = location.state?.height;
     const [imageSrc, setImageSrc] = useState();
     const [seed, setSeed] = useState();
     const [imagesLoaded, setImagesLoaded] = useState(false);
     console.log(imageData)
+    console.log(autoText)
 
 
     const GoMain = () => {
@@ -56,10 +57,6 @@ const Makebanner = () => {
         setSeed(data.key)
     };
 
-    async function delay(ms) {
-        return new Promise(resolve => setTimeout(resolve, ms));
-    }
-
     const onUploadImage = async (blob, callback) => {//없어도됨
         // 이미지를 Blob 형식으로 받아와서 처리할 수 있습니다.
 
@@ -84,10 +81,10 @@ const Makebanner = () => {
             const data = {
                 userId: sessionSearch,
                 prompt: prompt,
-                filename: imageSrc,
+                imgPath: imageSrc,
                 seed :  seed,
                 width: width,
-                height: height
+                height: height,
             };
 
             // 이미지 데이터를 서버로 전송
@@ -114,6 +111,9 @@ const Makebanner = () => {
                     name: 'dkfl',
                 },
                 menuBarPosition: 'bottom',
+                theme:{
+                    "common.backgroundColor": '#ffffff',
+                },
             },
             cssMaxWidth: 700,
             cssMaxHeight: 500,
@@ -208,7 +208,7 @@ const Makebanner = () => {
 
         <section>
             <div className="make-banner-container">
-                <p className="login-title" > {text} {autoText}</p>
+                <h2 className="t-title">문구 내용 : {text} {typeof autoText === 'string' ? autoText : JSON.stringify(autoText)}</h2>
                 {/* <Editor
                     initialValue="hello react editor world!"
                     previewStyle="vertical"

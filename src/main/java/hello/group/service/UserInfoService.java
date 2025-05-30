@@ -1,7 +1,8 @@
 package hello.group.service;
-import hello.group.dto.AdList;
+import hello.group.dto.BannerDto;
+import hello.group.dto.BannerList;
 import hello.group.dto.UserInfo;
-import hello.group.entity.Ad;
+import hello.group.entity.Banner;
 import hello.group.entity.User;
 import hello.group.repository.AdRepository;
 import hello.group.repository.UserInfoRepo;
@@ -68,14 +69,14 @@ public class UserInfoService {
         Optional<User> byId = userInfoRepo.findById(userId);
         User user = byId.get();
         Long Num = user.getNum();
-        List<AdList> id = em.createQuery("select new hello.group.dto.AdList(s.prompt, s.imagePath) from Ad s join s.userNum t where t.num=:id", AdList.class)
+        List<BannerList> id = em.createQuery("select new hello.group.dto.BannerList(s.prompt, s.imagePath) from Banner s join s.userNum t where t.num=:id", BannerList.class)
                 .setParameter("id", Num)
                 .getResultList();
         System.out.println(id);
 
         Map<String, List<String>> resultMap = new LinkedHashMap<>();
 
-        for (AdList ad : id) {
+        for (BannerList ad : id) {
             String field1 = ad.getField1();
             String field2 = ad.getField2();
 
@@ -116,19 +117,30 @@ public class UserInfoService {
     @Transactional
     public void deleteUserInfo(String userId){
         Optional<User> byId = userInfoRepo.findById(userId);
+        System.out.println(byId);
         User user = byId.get();
-        userInfoRepo.delete(user);
-        em.flush();
+        System.out.println("222222222222" + user.getUserId());
+        userInfoRepo.deleteById(user.getNum());
     }
 
     @Transactional
     public void deleteUserBanner(String imgPath){
 
-        List<Ad> all = adRepo.findAll();
-        Optional<Ad> deleteInfo = all.stream().filter(s -> s.getImagePath().equals(imgPath)).findFirst();
-        Ad ad = deleteInfo.get();
-        adRepo.delete(ad);
-        em.flush();
+        List<Banner> all = adRepo.findAll();
+        System.out.println("============================");
+        System.out.println(all);
+        Optional<Banner> deleteInfo = all.stream().filter(s -> s.getImagePath().equals(imgPath)).findFirst();
+        Banner banner = deleteInfo.get();
+        adRepo.delete(banner);
+    }
+
+    @Transactional
+    public BannerDto recycleImg(String imgPath){
+        List<Banner> all = adRepo.findAll();
+        Optional<Banner> recycleImgPath = all.stream().filter(s -> s.getImagePath().equals(imgPath)).findFirst();
+        Banner banner = recycleImgPath.get();
+        BannerDto dto = banner.toDto();
+        return dto;
     }
 
 }

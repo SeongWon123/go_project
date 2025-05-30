@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from "react-router-dom";
+import {useLocation, useNavigate} from "react-router-dom";
 import axios from 'axios';
 import './static/css/login.css';
 
@@ -9,8 +9,13 @@ const Login = () =>  {
     const [userPassword, setPassword] = useState('');
     const loginInfo = {userId, userPassword};
     const navigate = useNavigate();
+    const location = useLocation();
     const sessionSearch = sessionStorage.getItem("userId");
+    const removeSession = location.state?.removeSession;
     useEffect(() => {
+        if(removeSession === "1"){
+            alert("다시 로그인 하시오.")
+        }
         if (sessionSearch) { // sessionSearch가 존재한다면
             alert("이미 로그인되어 있습니다"); // 이미 로그인되어 있다는 알림을 띄웁니다
             navigate("/setting");
