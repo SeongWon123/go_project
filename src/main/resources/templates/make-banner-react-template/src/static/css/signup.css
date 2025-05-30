@@ -1,0 +1,143 @@
+* {
+    box-sizing: border-box;
+}
+
+html {
+    word-break: keep-all;
+    font-family: Pretendard, sans-serif;
+    font-size: 16px;
+    line-height: 19px;
+}
+
+body {
+    background-color: #F7F6F9;
+    color: #000000;
+    margin: 0;
+}
+header {
+    height: 80px;
+    padding: 16px;
+    background-color: #FFFFFF;
+    font-weight: 700;
+    box-shadow: 0 4px 4px 1px rgba(0,0,0,0.1);
+    position: fixed;
+    top: 0;
+    width: 100%;
+}
+
+.banner-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 10px 0;
+}
+
+.banner-title {
+    margin: auto 80px;
+    color: #7C00FF;
+    font-weight: bold;
+}
+
+.charts-see-all {
+    margin: auto 30px;
+}
+
+.go-login{
+    display: inline-block;
+    margin: auto 20px;
+    font-size: 16px;
+    font-weight: normal;
+    text-decoration: none;
+    color: black;
+}
+.go-start{
+    background-color: #7C00FF;
+    border-radius: 5px;
+    border: none;
+    padding: 10px;
+    margin:auto 15px;
+}
+.go-go{
+    display: inline-block;
+    margin: auto 5px;
+    font-size: 16px;
+    font-weight: normal;
+    text-decoration: none;
+    color: #FFFFFF;
+}
+
+.container{
+    width: 600px;
+    padding: 60px 60px 20px;
+    margin: 130px auto 20px;
+    background-color: white;
+    border-radius: 3px;
+    box-shadow: 2px 1px 10px 1px rgba(0,0,0,0.1);
+}
+
+label {
+    color: #2c2c2c;
+    display: block;
+    margin: 16px 0 8px;
+}
+
+.input {
+    border: none;
+    background-color: #F7F6F9;
+    border-radius: 5px;
+    color: #ababab;
+    display: block;
+    line-height: 24px;
+    margin: 8px 0;
+    padding: 16px 24px;
+    width: 100%;
+}
+
+.login-but {
+    background-color: #7C00FF;
+    border: none;
+    color: #ffffff;
+    font-size: 18px;
+    font-weight: 700;
+    margin: 24px 0;
+    display: block;
+    padding: 16px;
+    width: 100%;
+    border-radius: 5px;
+}
+
+
+.login{
+    margin: 30px auto;
+    width: 360px;
+
+}
+
+.login-title{
+    font-size: 36px;
+    font-weight: 700;
+    margin: 24px 0;
+    color: black;
+    /*color: #4e4e4e;*/
+    text-align: center;
+}
+
+.login-forgot{
+    text-align: right;
+}
+
+.login-forgot-link{
+    font-size: 14px;
+    font-weight: 400;
+    color: #ababab;
+}
+
+.login-signup{
+    font-size: 14px;
+    font-weight: 400;
+    text-align: center;
+}
+
+.login-signup-link{
+    color: #2c2c2c;
+}

@@ -1,0 +1,294 @@
+* {
+    box-sizing: border-box;
+}
+
+html {
+    word-break: keep-all;
+    font-family: Pretendard, sans-serif;
+    font-size: 16px;
+    line-height: 19px;
+}
+
+body {
+    background-color: #F7F6F9;
+    color: #000000;
+    margin: 0;
+}
+header {
+    height: 80px;
+    padding: 16px;
+    background-color: #FFFFFF;
+    font-weight: 700;
+    box-shadow: 0 4px 4px 1px rgba(0,0,0,0.1);
+    position: fixed;
+    top: 0;
+    width: 100%;
+}
+
+.banner-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 10px 0;
+}
+
+.banner-title {
+    margin: auto 80px;
+    color: #7C00FF;
+    font-weight: bold;
+}
+
+.charts-see-all {
+    margin: auto 30px;
+}
+
+.go-login{
+    display: inline-block;
+    margin: auto 20px;
+    font-size: 16px;
+    font-weight: normal;
+    text-decoration: none;
+    color: black;
+}
+.go-start{
+    background-color: #7C00FF;
+    border-radius: 5px;
+    border: none;
+    padding: 10px;
+    margin:auto 15px;
+}
+.go-go{
+    display: inline-block;
+    margin: auto 5px;
+    font-size: 16px;
+    font-weight: normal;
+    text-decoration: none;
+    color: #FFFFFF;
+}
+
+
+.container1{
+    display: flex;
+    width: 60%;
+    padding: 60px;
+    margin: 130px auto 60px;
+    background-color: white;
+    border-radius: 3px;
+    box-shadow: 2px 1px 10px 1px rgba(0,0,0,0.1);
+}
+.login{
+    display: flex;
+    flex-direction: column;
+}
+
+.size-int-box {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.la-t {
+    color: black;
+    font-size: 24px;
+    font-weight: 600;
+    /*color: #2c2c2c;*/
+    display: block;
+    margin: 16px 0 8px;
+}
+
+.in-t{
+    border: none;
+    background-color: #F7F6F9;
+    border-radius: 5px;
+    color: #2c2c2c;
+    display: block;
+    line-height: 24px;
+    margin: 8px 0;
+    padding: 16px 24px;
+    width: 100%;
+}
+
+.in-t::placeholder{
+    color: black;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.in-t2 {
+    border: none;
+    background-color: #F7F6F9;
+    border-radius: 5px;
+    color: #2c2c2c;
+    display: block;
+    line-height: 24px;
+    margin: 8px 0;
+    padding: 16px 24px;
+    width: 48%;
+}
+
+.in-t2::placeholder{
+    color: black;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.in-t3 {
+    border: none;
+    background-color: #F7F6F9;
+    border-radius: 5px;
+    color: #2c2c2c;
+    display: block;
+    line-height: 24px;
+    margin: 8px 0;
+    padding: 16px 24px;
+    width: 100%;
+    height: 100px;
+}
+
+.in-t3::placeholder{
+    color: black;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.in-t4 {
+    border: none;
+    background-color: #F7F6F9;
+    border-radius: 5px;
+    color: #2c2c2c;
+    display: block;
+    line-height: 24px;
+    margin: 8px 0;
+    padding: 5px 10px;
+    width: 80%;
+}
+
+.check{
+    position: relative;
+}
+
+.check button {
+    position: absolute;
+    width: 60px;
+    height: 40px;
+    top: 0;
+    bottom: 0;
+    right: 5px;
+    margin: auto 0;
+    border-radius: 5px;
+    background-color: #7C00FF;
+    color: white;
+    border: none;
+}
+
+/* input 숨겨준다 */
+input[type=checkbox]{
+    display:none;
+}
+
+input[type=checkbox]+ label{
+    cursor:pointer;
+}
+
+input[type=checkbox] + label > span{
+    vertical-align: middle;
+    padding-left: 5px;
+    font-weight: 600;
+    font-size: 17px;
+    color: black;
+}
+
+/* label:before에 체크하기 전 상태 CSS */
+input[type=checkbox] + label:before{
+    content:"";
+    display:inline-block;
+    width:17px;
+    height:17px;
+    border:2px solid #7C00FF;
+    border-radius: 4px;
+    vertical-align:middle;
+}
+
+/* label:before에 체크 된 상태 CSS */
+input[type=checkbox]:checked + label:before{
+    content:'✔';
+    color: white;
+    background-color:#7C00FF;
+    border-color:#7C00FF;
+    background-repeat: no-repeat;
+    background-position: 50%;
+}
+
+
+.rec-but{
+    background-color: #7C00FF;
+    border: none;
+    width: 100px;
+    color: #ffffff;
+    font-size: 12px;
+    font-weight: 500;
+    border-radius: 5px;
+    height: 40px;
+    margin: 10px 10px 0px 0px;
+}
+
+.login-but {
+    background-color: #7C00FF;
+    border: none;
+    color: #ffffff;
+    font-size: 18px;
+    font-weight: 700;
+    margin: 24px 0;
+    display: block;
+    padding: 16px;
+    width: 100%;
+    border-radius: 5px;
+}
+
+
+.login{
+    margin: 30px auto;
+    width: 360px;
+
+}
+
+.login-title{
+    font-size: 36px;
+    font-weight: 700;
+    margin: 24px 0;
+    color:#4e4e4e ;
+    text-align: center;
+}
+.note{
+    padding: 20px;
+    width: 40%;
+    background-color: beige;
+    border-radius: 5px;
+    text-align: left;
+    color: black;
+    height: 500px;
+    margin: auto;
+}
+
+.n-t{
+    font-size: 18px;
+    font-weight: 500;
+}
+.n-t-l{
+    border-bottom: 2px solid #800000;
+}
+
+.lines{
+    border-bottom: 1px solid black;
+}
+
+.s-t{
+    font-size: 15px;
+    font-weight: 400;
+}
+.n-e{
+    font-size: 13px;
+    font-weight: 300px;
+    color: #4e4e4e;
+    text-indent: 30px;
+}

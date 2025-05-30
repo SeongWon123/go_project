@@ -1,0 +1,174 @@
+* {
+    box-sizing: border-box;
+}
+
+html {
+    word-break: keep-all;
+    font-family: Pretendard, sans-serif;
+    font-size: 16px;
+    line-height: 19px;
+}
+
+body {
+    background-color: #F7F6F9;
+    color: #000000;
+}
+header {
+    height: 80px;
+    padding: 16px;
+    background-color: #FFFFFF;
+    font-weight: 700;
+    box-shadow: 0 4px 4px 1px rgba(0,0,0,0.1);
+    position: fixed;
+    top: 0;
+    width: 100%;
+}
+
+.banner-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 10px 0;
+}
+
+.banner-title {
+    margin: auto 80px;
+    color: #7C00FF;
+    font-weight: bold;
+}
+
+.charts-see-all {
+    margin: auto 30px;
+    display: flex;
+    flex-direction: row;
+}
+
+.go-login{
+    display: inline-block;
+    margin: auto 20px;
+    font-size: 16px;
+    font-weight: normal;
+    text-decoration: none;
+    color: black;
+}
+.go-start{
+    background-color: #7C00FF;
+    border-radius: 5px;
+    border: none;
+    padding: 10px;
+    margin:auto 15px;
+}
+.go-go{
+    display: inline-block;
+    margin: auto 5px;
+    font-size: 16px;
+    font-weight: normal;
+    text-decoration: none;
+    color: #FFFFFF;
+}
+
+.make-banner-container{
+    width: 1750px;
+    height: 1200px;
+    padding: 60px;
+    margin: 130px auto 20px;
+    background-color: white;
+    border-radius: 3px;
+    box-shadow: 2px 1px 10px 1px rgba(0,0,0,0.1);
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.t-title{
+    font-weight: bold;
+    font-size: 30px;
+    margin: 10px 30px 30px;
+    line-height: 1.5;
+}
+
+
+
+
+.tui-image-editor-container .tui-image-editor-controls{
+    box-shadow: 5px 5px 10px 5px rgba(0,0,0,0.4);
+    background-color: white;
+}
+
+
+.tui-image-editor-container {
+    box-shadow: 2px 1px 5px 1px rgba(0,0,0,0.4);
+    border-radius: 3px;
+}
+
+.tui-image-editor-container .tui-image-editor-header {
+    box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.2);
+
+}
+
+.tui-image-editor-container .tui-image-editor-header-buttons button{
+    background-color: #7C00FF !important;
+    border: none !important;
+    box-shadow: 2px 1px 5px 1px rgba(0,0,0,0.4);
+}
+
+.tui-image-editor-container .tui-image-editor-header-buttons div{
+    box-shadow: 2px 1px 5px 1px rgba(0,0,0,0.4);
+}
+
+
+/*.list-box{*/
+/*    border-color: lightgray;*/
+/*    border-style: solid;*/
+/*    border-width: 2px;*/
+/*    margin: 10px 10px;*/
+/*    border-radius: 5px;*/
+/*    padding: 10px 20px;*/
+/*}*/
+
+/*.list-img{*/
+/*    display: flex;*/
+/*    border-top-style:solid;*/
+/*    border-top-color: lightgray;*/
+/*    border-width: 2px;*/
+/*    padding: 10px 0px;*/
+/*}*/
+
+/*.ban-box{*/
+/*    border: none;*/
+/*    background-color: #F7F6F9;*/
+/*    display: flex;box-shadow: 2px 1px 10px 1px rgba(0,0,0,0.1);*/
+/*    margin: 10px;*/
+/*    width: 100%;*/
+/*    height: 100%;*/
+/*    border-radius: 5px;*/
+
+/*}*/
+
+li{
+    list-style: none;
+    display: inline-block;
+}
+
+
+.img-list{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.result-image {
+    display:block;
+    object-fit: contain;
+    margin: 30px;
+    width: 100px;
+    height: 100px;
+}
+
+.img-zip {
+    width: 200px;
+    height: 200px;
+    object-fit: fill;
+
+}
+
